@@ -1,0 +1,144 @@
+TEHTÄVÄT:
+------------
+
+0
+-------------
+
+0.1.
+HTML ja CSS kerrattu
+
+0.2:
+Formit kerrattu
+
+0.3:
+
+kayttaja->selain:
+note left of selain
+kayttaja klikkaa "muistiinpanot"-linkkiä
+https://fullstack-exampleapp.herokuapp.com/notes
+end note
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/notes 
+note left of palvelin
+  muodostetaan HTML mikä listaa olemassa olevat muistiinpanot sekä
+  input-kentän uusien muistiinpanojen syöttämiseksi.
+end note
+palvelin->selain: status 200, sivun HTML-koodi
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: status 200, css-tyylitiedosto
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain: status 200, javascript-kooditiedosto
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: status 200, json-data
+
+note left of selain
+ selain näyttää palvelimen palauttaman HTML:n
+ jonka tyylit on määritelty CSS-tiedostossa, businesslogiikka on
+ määritelty js-tiedostossa ja tallennettujen muistiinpanojen data json-tiedostossa.
+end note
+
+
+0.4: 
+
+kayttaja->selain:
+note left of selain
+kayttaja kirjoittaa uuden muistiinpanon tekstikenttään ja 
+klikkaa "Talleta"-nappia
+https://fullstack-exampleapp.herokuapp.com/new_note
+end note
+selain->palvelin: POST https://fullstack-exampleapp.herokuapp.com/new_note
+note left of palvelin
+  palvelimelle lähetetään käyttäjän syöttämä uusi muistiinpano.
+end note
+
+palvelin->selain: status 302, uudelleenohjauspyyntö
+note left of palvelin
+  Palvelin vastaa pyyntöön HTTP-statuskoodilla 302. 
+  Kyseessä on ns. uudelleenohjauspyyntö eli redirectaus, 
+  minkä avulla palvelin kehottaa selainta tekemään 
+  automaattisesti uuden HTTP GET -pyynnön headerin Location 
+  kertomaan paikkaan, eli osoitteeseen notes.
+end note
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/notes
+note left of palvelin
+  muodostetaan sivun HTML-koodi
+end note
+
+palvelin->selain: status 200, sivun HTML-koodi
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: status 200, css-tyylitiedosto
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/main.js
+palvelin->selain: status 200, javascript-kooditiedosto
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: status 200, json-data
+
+note left of selain
+ selain näyttää palvelimen palauttaman HTML:n
+ jonka tyylit on määritelty CSS-tiedostossa, businesslogiikka on
+ määritelty js-tiedostossa ja tallennettujen muistiinpanojen data json-tiedostossa,
+ mikä sisältää nyt alussa käyttäjän lomakkeessa lähettämän uuden muistiipanon.
+end note
+
+
+0.5
+------
+
+kayttaja->selain:
+note left of selain
+kayttaja naputtaa selaimeen sovelluksen spa-osoitteen:
+https://fullstack-exampleapp.herokuapp.com/spa
+end note
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/spa
+note left of palvelin
+  muodostetaan HTML mikä listaa olemassa olevat muistiinpanot sekä
+  input-kentän uusien muistiinpanojen syöttämiseksi.
+end note
+palvelin->selain: status 200, sivun HTML-koodi
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/main.css
+palvelin->selain: status 200, css-tyylitiedosto
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/spa.js
+palvelin->selain: status 200, javascript-kooditiedosto
+
+selain->palvelin: GET https://fullstack-exampleapp.herokuapp.com/data.json
+palvelin->selain: status 200, json-data
+
+note left of selain
+ selain näyttää palvelimen palauttaman HTML:n,
+ jonka tyylit on määritelty CSS-tiedostossa, ja minkä rakenne/sisältö on oletettavasti
+ osittain muodostettu js-tiedoson koodin perusteella,
+ ja tallennettujen muistiinpanojen data json-tiedostossa.
+end note
+
+
+
+0.6.
+--------
+
+kayttaja->selain:
+note left of selain
+kayttaja naputtaa tekstikenttään uuden muistiinpanon ja klikkaa
+Tallenna-nappia.
+end note
+selain->palvelin: POST https://fullstack-exampleapp.herokuapp.com/new_note_spa
+note left of palvelin
+  palvelimelle lähetetään uusi muistiinpano json-muodossa
+end note
+palvelin->selain: status 201, sivun HTML-koodi
+note left of palvelin
+    Palvelin vastaa kyselyyn statuskoodilla 201 created. 
+    Tällä kertaa palvelin ei pyydä uudelleenohjausta kuten aiemmassa versiossamme. 
+    Selain pysyy samalla sivulla ja muita HTTP-pyyntöjä ei suoriteta.
+end note
+note left of selain
+ selain päivittää html-sivuun käyttäjän syöttämän uuden muistiinpanon 
+ javacsript-koodin sääntöjen mukaisesti - tätä tietoa ei siis erikseen
+ tarvitse hakea palvelimelta tallennuksen jälkeen.
+end note
