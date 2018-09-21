@@ -1,6 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+const Button = ({ handleClick, text }) => (
+    <button onClick={handleClick}>
+      {text}
+    </button>
+  )
+
+  const Statistics = ({state}) => (
+    <div>
+        <Statistic text="keskiarvo" stat={(state.huono*-1 + state.hyva*1)/(state.huono + state.neutraali + state.hyva)}></Statistic>
+        <Statistic text="positiivisia" stat={(state.hyva/(state.huono + state.neutraali + state.hyva))*100} ></Statistic>
+    </div>
+)
+
+const Statistic = ({text, stat}) => (
+  <div>{text} {stat}
+  </div>
+)
+
 
 class App extends React.Component {
     constructor() {
@@ -47,32 +65,43 @@ class App extends React.Component {
           <div>
             <div>anna palautetta</div>
             <div>
-            
-              <button onClick={this.klikHyva}>
-                hyvä
-              </button>
-              <button onClick={this.klikNeutraali}>
-                neutraali
-              </button>
-              <button onClick={this.klikHuono}>
-                huono
-              </button>
+                <Button
+                    handleClick={this.klikHyva}
+                    text="Hyva"
+                />
+
+                <Button
+                    handleClick={this.klikNeutraali}
+                    text="Neutraali"
+                />
+
+
+                <Button
+                    handleClick={this.klikHuono}
+                    text="Huono"
+                />
+
+
             </div>
                 <div>statistiikka</div>
                 <div>hyvä {this.state.hyva}</div>
                 <div>neutraali {this.state.neutraali}</div>
                 <div>huono {this.state.huono}</div>
-                <div>keskiarvo {(this.state.huono*-1 + this.state.hyva*1)/(this.state.huono + this.state.neutraali + this.state.hyva)}
-                </div>
-                <div>positiivisia {(this.state.hyva/(this.state.huono + this.state.neutraali + this.state.hyva))*100}%
 
+                <div>keskiarvo 
                 </div>
+                <Statistics state={this.state}></Statistics>
+                                    
      
             
           </div>
         )
       }
     }
+
+
+  
+
 
     ReactDOM.render(
         <App />,
