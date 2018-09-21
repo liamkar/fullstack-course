@@ -26,6 +26,7 @@ class App extends React.Component {
    klikHyva = () => {
     this.setState({
       hyva: this.state.hyva + 1
+
     })
   }
 
@@ -61,6 +62,12 @@ class App extends React.Component {
                 <div>hyvä {this.state.hyva}</div>
                 <div>neutraali {this.state.neutraali}</div>
                 <div>huono {this.state.huono}</div>
+                <div>keskiarvo {(this.state.huono*-1 + this.state.hyva*1)/(this.state.huono + this.state.neutraali + this.state.hyva)}
+                </div>
+                <div>positiivisia {(this.state.hyva/(this.state.huono + this.state.neutraali + this.state.hyva))*100}%
+
+                </div>
+     
             
           </div>
         )
