@@ -26,13 +26,13 @@ const Statistics = ({state}) => {
         <Statistic text="neutraali" stat={state.neutraali}></Statistic>
         <Statistic text="huono" stat={state.huono}></Statistic>
         <Statistic text="keskiarvo" stat={(state.huono*-1 + state.hyva*1)/(state.huono + state.neutraali + state.hyva)}></Statistic>
-        <Statistic text="positiivisia" stat={(state.hyva/(state.huono + state.neutraali + state.hyva))*100} ></Statistic>
+        <Statistic text="positiivisia" stat={(state.hyva/(state.huono + state.neutraali + state.hyva))*100} symbol="%" ></Statistic>
         </div>
       )
 }
       
-const Statistic = ({text, stat}) => (
-  <div>{text} {stat}
+const Statistic = ({text, stat, symbol = ""}) => (
+  <div>{text} {stat} {symbol}
   </div>
 )
 
@@ -45,18 +45,6 @@ class App extends React.Component {
         huono: 0
       }
     }
-
-    asetaArvoon = (arvo) => () => this.setState({ counter: arvo })
-
-    /*
-    kasvataYhdella = () => {
-      this.setState({ counter: this.state.counter + 1 })
-    }
-  
-    nollaa = () => {
-      this.setState({ counter: 0 })
-    }
-    */
 
    asetaPalaute = (palaute) => {
     return () => {
