@@ -7,8 +7,6 @@ const Button = ({ handleClick, text }) => (
     </button>
   )
 
-
-
 const Statistics = ({state}) => {
     if (state.huono + state.neutraali + state.hyva === 0) {
         return (
@@ -22,18 +20,23 @@ const Statistics = ({state}) => {
             <div>
             <em>Statistiikka</em>
           </div>
+        <table>
+        <tbody>
         <Statistic text="hyva" stat={state.hyva}></Statistic>
         <Statistic text="neutraali" stat={state.neutraali}></Statistic>
         <Statistic text="huono" stat={state.huono}></Statistic>
         <Statistic text="keskiarvo" stat={(state.huono*-1 + state.hyva*1)/(state.huono + state.neutraali + state.hyva)}></Statistic>
         <Statistic text="positiivisia" stat={(state.hyva/(state.huono + state.neutraali + state.hyva))*100} symbol="%" ></Statistic>
+        </tbody>
+        </table>
         </div>
       )
 }
       
-const Statistic = ({text, stat, symbol = ""}) => (
-  <div>{text} {stat} {symbol}
-  </div>
+const Statistic = ({text, stat}) => (
+    <tr>
+        <td>{text}</td><td>{stat + " "+((text === 'positiivisia' ? '%' : ''))}</td>
+    </tr>
 )
 
 class App extends React.Component {
