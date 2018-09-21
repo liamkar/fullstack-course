@@ -7,6 +7,8 @@ const Button = ({ handleClick, text }) => (
     </button>
   )
 
+
+
 const Statistics = ({state}) => {
     if (state.huono + state.neutraali + state.hyva === 0) {
         return (
@@ -29,12 +31,10 @@ const Statistics = ({state}) => {
       )
 }
       
-
 const Statistic = ({text, stat}) => (
   <div>{text} {stat}
   </div>
 )
-
 
 class App extends React.Component {
     constructor() {
@@ -45,8 +45,9 @@ class App extends React.Component {
         huono: 0
       }
     }
-  
+
     asetaArvoon = (arvo) => () => this.setState({ counter: arvo })
+
     /*
     kasvataYhdella = () => {
       this.setState({ counter: this.state.counter + 1 })
@@ -57,64 +58,57 @@ class App extends React.Component {
     }
     */
 
-   klikHyva = () => {
-    this.setState({
-      hyva: this.state.hyva + 1
-
-    })
+   asetaPalaute = (palaute) => {
+    return () => {
+      this.setState({ hyva: this.state.hyva + palaute.hyva, neutraali: this.state.neutraali + palaute.neutraali, huono: this.state.huono + palaute.huono })
+    }
   }
 
-  klikNeutraali = () => {
-    this.setState({
-      neutraali: this.state.neutraali + 1
-    })
-  }
-  
-  klikHuono = () => {
-    this.setState({
-      huono: this.state.huono + 1
-    })
-  }
+  alustaPalauteOlio = (laatu) => {
+    console.log('laatu:'+laatu)
+    const palaute = {
+        hyva: 0,
+        neutraali: 0,
+        huono: 0
+    }
 
+    palaute[laatu] = 1
+
+  return palaute;
+}
     render() {
-        return (
+        return (            
           <div>
+              
             <div>anna palautetta</div>
             <div>
                 <Button
-                    handleClick={this.klikHyva}
+                    handleClick={this.asetaPalaute(                        
+                        this.alustaPalauteOlio('hyva')
+                      )}
                     text="Hyva"
                 />
 
                 <Button
-                    handleClick={this.klikNeutraali}
+                    handleClick={this.asetaPalaute(
+                        this.alustaPalauteOlio('neutraali')
+                      )}
                     text="Neutraali"
                 />
 
-
                 <Button
-                    handleClick={this.klikHuono}
+                    handleClick={this.asetaPalaute(
+                        this.alustaPalauteOlio('huono')
+                      )}
                     text="Huono"
                 />
 
-
             </div>
-                
-
-
-
                 <Statistics state={this.state}></Statistics>
-                                    
-     
-            
           </div>
         )
       }
     }
-
-
-  
-
 
     ReactDOM.render(
         <App />,
