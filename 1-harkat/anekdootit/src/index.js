@@ -42,6 +42,11 @@ class App extends React.Component {
                     text="next anecdote"
                 />
 
+        <br></br>
+        <b>Anecdote with most votes</b><br></br>
+        {this.props.anecdotes[this.state.anecdoteVotes.indexOf(Math.max(...this.state.anecdoteVotes))]}
+        <br/>
+        has {Math.max(...this.state.anecdoteVotes)} votes
       </div>
     )
   }
