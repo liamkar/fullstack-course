@@ -5,7 +5,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 0
+      selected: 0,
+      anecdoteVotes: [ 0, 0, 0, 0, 0, 0 ] //good to place this info to state as state changes can be rendered automatically.?
     }
   }
 
@@ -15,19 +16,37 @@ class App extends React.Component {
     }
   }
 
+  voteAnekdootti = () => {
+    return () => {
+        const kopio = [...this.state.anecdoteVotes]
+        kopio[this.state.selected] += 1
+        this.setState({ anecdoteVotes: kopio })
+    }
+  }
+
   render() {
     return (
 
       <div>
-           <Button
-                    handleClick={this.arvoAnekdootti()}
-                    text="Anekdootti-generaattori"
-                />
         {this.props.anecdotes[this.state.selected]}
+        <br></br>
+        has {this.state.anecdoteVotes[this.state.selected]} votes
+        <br></br>
+
+        <Button
+                    handleClick={this.voteAnekdootti()}
+                    text="vote"
+                />
+        <Button
+                    handleClick={this.arvoAnekdootti()}
+                    text="next anecdote"
+                />
+
       </div>
     )
   }
 }
+
 
 const anecdotes = [
   'If it hurts, do it more often',
@@ -46,6 +65,6 @@ const Button = ({ handleClick, text }) => (
 
 
 ReactDOM.render(
-  <App anecdotes={anecdotes} />,
+  <App anecdotes={anecdotes}/>,
   document.getElementById('root')
 )
