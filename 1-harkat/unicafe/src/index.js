@@ -7,22 +7,27 @@ const Button = ({ handleClick, text }) => (
     </button>
   )
 
-
-  const Statistics = ({state}) => {
+const Statistics = ({state}) => {
     if (state.huono + state.neutraali + state.hyva === 0) {
         return (
           <div>
-            <em>sovellusta käytetään nappeja painelemalla</em>
+            <em>ei yhtään palautetta annettu</em>
           </div>
         )
       }
       return (
         <div>
+            <div>
+            <em>Statistiikka</em>
+          </div>
+        <Statistic text="hyva" stat={state.hyva}></Statistic>
+        <Statistic text="neutraali" stat={state.neutraali}></Statistic>
+        <Statistic text="huono" stat={state.huono}></Statistic>
         <Statistic text="keskiarvo" stat={(state.huono*-1 + state.hyva*1)/(state.huono + state.neutraali + state.hyva)}></Statistic>
         <Statistic text="positiivisia" stat={(state.hyva/(state.huono + state.neutraali + state.hyva))*100} ></Statistic>
         </div>
       )
-      }
+}
       
 
 const Statistic = ({text, stat}) => (
@@ -94,10 +99,9 @@ class App extends React.Component {
 
 
             </div>
-                <div>statistiikka</div>
-                <div>hyvä {this.state.hyva}</div>
-                <div>neutraali {this.state.neutraali}</div>
-                <div>huono {this.state.huono}</div>
+                
+
+
 
                 <Statistics state={this.state}></Statistics>
                                     
