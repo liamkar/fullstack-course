@@ -1,33 +1,30 @@
-import React from 'react';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      persons: [
-        { name: 'Arto Hellas' }
-      ],
-      newName: ''
-    }
+import ReactDOM from 'react-dom'
+import React from 'react'
+import App from './App'
+
+const notes = [
+  {
+    id: 1,
+    content: 'HTML on helppoa',
+    date: '2017-12-10T17:30:31.098Z',
+    important: true
+  },
+  {
+    id: 2,
+    content: 'Selain pystyy suorittamaan vain javascriptiä',
+    date: '2017-12-10T18:39:34.091Z',
+    important: false
+  },
+  {
+    id: 3,
+    content: 'HTTP-protokollan tärkeimmät metodit ovat GET ja POST',
+    date: '2017-12-10T19:20:14.298Z',
+    important: true
   }
+]
 
-  render() {
-    return (
-      <div>
-        <h2>Puhelinluettelo</h2>
-        <form>
-          <div>
-            nimi: <input />
-          </div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
-        <h2>Numerot</h2>
-        ...
-      </div>
-    )
-  }
-}
-
-export default App
+ReactDOM.render(
+  <App notes={notes} />,
+  document.getElementById('root')
+)
