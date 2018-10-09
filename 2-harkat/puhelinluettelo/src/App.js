@@ -1,5 +1,6 @@
 import React from 'react'
 import Note from './components/Note'
+import Filter from './components/Filter'
 
 class App extends React.Component {
   constructor(props) {
@@ -80,11 +81,9 @@ class App extends React.Component {
               <div>
                 <h2>Puhelinluettelo</h2>
                 <div>
-                    rajaa näytettävä: 
-                    <input 
-                        value={this.state.filter} 
-                        onChange={this.handleFilterChange}
-                    />
+
+                    <Filter filter={this.state.filter} handleFilterChange={this.handleFilterChange} />
+
                   </div>
                 <h2>Lisää uusi</h2>
                 <form onSubmit={this.addPhoneNumber}>
