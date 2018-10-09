@@ -8,7 +8,8 @@ class App extends React.Component {
       persons: props.persons,
       newName: '',
       newPhoneNumber: '',
-      showAll: true
+      showAll: true,
+      filter: ''
     }
   }
 
@@ -47,6 +48,12 @@ class App extends React.Component {
     }
   }
 
+  handleFilterChange = (event) => {
+    console.log(event.target.value)
+    this.setState({ filter: event.target.value })
+  }
+
+
   handleNameChange = (event) => {
     console.log(event.target.value)
     this.setState({ newName: event.target.value })
@@ -59,16 +66,27 @@ class App extends React.Component {
   }
 
   render() {
-    const phoneNumbersToShow =
-      this.state.showAll ?
-        this.state.persons :
-        this.state.persons.filter(person => person.important === true)
 
-    const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
+    console.log('filter at app render:',this.state.filter.length);
+    
+    
+    const phoneNumbersToShow =
+      this.state.filter.length <= 0 ?
+        this.state.persons :
+        this.state.persons.filter(person => ((person.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) > -1) ||
+         ((person.phoneNumber.toLowerCase().indexOf(this.state.filter.toLowerCase()) > -1))))
 
     return (
               <div>
                 <h2>Puhelinluettelo</h2>
+                <div>
+                    rajaa näytettävä: 
+                    <input 
+                        value={this.state.filter} 
+                        onChange={this.handleFilterChange}
+                    />
+                  </div>
+                <h2>Lisää uusi</h2>
                 <form onSubmit={this.addPhoneNumber}>
                   <div>
                     nimi: 
