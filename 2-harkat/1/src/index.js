@@ -32,14 +32,13 @@ const Otsikko = (props) => {
 
   
   const Yhteensa = (props) => {
-  
-    return (
-        <p>yhteensä {props.osat[0].tehtavia + props.osat[1].tehtavia + props.osat[2].tehtavia} tehtävää</p>
+    var totaali = props.osat.reduce(function(prev, cur) {
+      return prev + cur.tehtavia;
+    }, 0);
+    return (        
+        <p>yhteensä {totaali}</p>
     )
   }
-
-
-  
 
   const App = () => {
     const kurssi = {
@@ -59,6 +58,11 @@ const Otsikko = (props) => {
           nimi: 'Komponenttien tila',
           tehtavia: 14,
           id: 3
+        },
+        {
+          nimi: 'Redux',
+          tehtavia: 7,
+          id: 4
         }
       ]
     }
@@ -130,7 +134,9 @@ const Kurssi = (props) => {
       <Otsikko nimi={props.kurssi.nimi} />
 
       <Sisalto osat={props.kurssi.osat}  />
-      
+
+      <Yhteensa osat={props.kurssi.osat}  />
+
     </div>
   )
 }
