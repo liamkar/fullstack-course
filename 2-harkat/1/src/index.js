@@ -39,7 +39,7 @@ const Otsikko = (props) => {
         <p>yhteensä {totaali}</p>
     )
   }
-
+/*
   const App = () => {
     const kurssi = {
       nimi: 'Half Stack -sovelluskehitys',
@@ -73,38 +73,61 @@ const Otsikko = (props) => {
       </div>
     )
   }
+*/
 
-
-/*
 const App = () => {
-  const kurssi = {
-    nimi: 'Half Stack -sovelluskehitys',
-    osat: [
-      {
-        nimi: 'Reactin perusteet',
-        tehtavia: 10
-      },
-      {
-        nimi: 'Tiedonvälitys propseilla',
-        tehtavia: 7
-      },
-      {
-        nimi: 'Komponenttien tila',
-        tehtavia: 14
-      }
-    ]
-  }
-
+  const kurssit = [
+    {
+      nimi: 'Half Stack -sovelluskehitys',
+      id: 1,
+      osat: [
+        {
+          nimi: 'Reactin perusteet',
+          tehtavia: 10,
+          id: 1
+        },
+        {
+          nimi: 'Tiedonvälitys propseilla',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+          nimi: 'Komponenttien tila',
+          tehtavia: 14,
+          id: 3
+        }
+      ]
+    },
+    {
+      nimi: 'Node.js',
+      id: 2,
+      osat: [
+        {
+          nimi: 'Routing',
+          tehtavia: 3,
+          id: 1
+        },
+        {
+          nimi: 'Middlewaret',
+          tehtavia: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
+  
   return (
+    
     <div>
-      <Otsikko nimi={kurssi.nimi} />
-
-      <Sisalto osat={kurssi.osat}  />
-      
+      <h1>Opetusohjelma</h1>
+      {kurssit.map(kurssi=><Kurssi key={kurssi.id} kurssi={kurssi}/>)}
     </div>
+
+
   )
 }
-*/
+
+
 
 const Kurssi = (props) => {
   console.log(props.kurssi);
