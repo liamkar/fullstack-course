@@ -2,28 +2,35 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 const Otsikko = (props) => {
+  console.log('props at Otsikko:',props.nimi);
+  
     return (
         <h1>{props.nimi}</h1>
     )
   }
 
   const Sisalto = (props) => {
+    console.log(props.osat);
+    //const { notes } = props.osat;
+    //console.log(notes);
     return (
       <div>
-        <Osa osa={props.osat[0]}/>
-        <Osa osa={props.osat[1]}/>
-        <Osa osa={props.osat[2]}/>
+          {props.osat.map(note=><Osa key={note.id} note={note}/>)}
       </div>
     )
 
   }
 
-  const Osa = (props) => {
+  const Osa = (note) => {
+    console.log('at OSA, note:',note);
+    console.log('note nimi:',note.note.nimi);
+    console.log('note tehtavia:',note.tehtavia);
     return (
-        <p>{props.osa.nimi} {props.osa.tehtavia}</p>
+        <p>{note.note.nimi} {note.note.tehtavia}</p>
     )
   }
 
+  
   const Yhteensa = (props) => {
   
     return (
@@ -32,6 +39,39 @@ const Otsikko = (props) => {
   }
 
 
+  
+
+  const App = () => {
+    const kurssi = {
+      nimi: 'Half Stack -sovelluskehitys',
+      osat: [
+        {
+          nimi: 'Reactin perusteet',
+          tehtavia: 10,
+          id: 1
+        },
+        {
+          nimi: 'Tiedonvälitys propseilla',
+          tehtavia: 7,
+          id: 2
+        },
+        {
+          nimi: 'Komponenttien tila',
+          tehtavia: 14,
+          id: 3
+        }
+      ]
+    }
+  
+    return (
+      <div>
+        <Kurssi kurssi={kurssi} />
+      </div>
+    )
+  }
+
+
+/*
 const App = () => {
   const kurssi = {
     nimi: 'Half Stack -sovelluskehitys',
@@ -56,11 +96,46 @@ const App = () => {
       <Otsikko nimi={kurssi.nimi} />
 
       <Sisalto osat={kurssi.osat}  />
-      <Yhteensa osat={kurssi.osat} />
       
     </div>
   )
 }
+*/
+
+const Kurssi = (props) => {
+  console.log(props.kurssi);
+
+  /*
+  const kurssi = {
+    nimi: 'Half Stack -sovelluskehitys',
+    osat: [
+      {
+        nimi: 'Reactin perusteet',
+        tehtavia: 10
+      },
+      {
+        nimi: 'Tiedonvälitys propseilla',
+        tehtavia: 7
+      },
+      {
+        nimi: 'Komponenttien tila',
+        tehtavia: 14
+      }
+    ]
+  }
+  */
+
+  return (
+    <div>
+      <Otsikko nimi={props.kurssi.nimi} />
+
+      <Sisalto osat={props.kurssi.osat}  />
+      
+    </div>
+  )
+}
+
+
 
 ReactDOM.render(
   <App />,
