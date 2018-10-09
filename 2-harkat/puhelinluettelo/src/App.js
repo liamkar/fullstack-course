@@ -24,12 +24,24 @@ class App extends React.Component {
       id: this.state.persons.length + 1
     }
 
-    const persons = this.state.persons.concat(phoneNumberObject)
+    let nameAlreadyInUse = this.state.persons.filter(obj => {
+        return obj.name === this.state.newName
+      })
 
-    this.setState({
-      persons,
-      newName: ''
-    })
+      console.log(nameAlreadyInUse);
+
+    if (nameAlreadyInUse.length === 0) { 
+
+        const persons = this.state.persons.concat(phoneNumberObject)
+
+        this.setState({
+            persons,
+            newName: ''
+        })
+}
+    else {
+        alert('Name is already in use!');
+    }
   }
 
   handleNameChange = (event) => {
