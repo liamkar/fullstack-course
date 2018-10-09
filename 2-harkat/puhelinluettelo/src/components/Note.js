@@ -1,9 +1,9 @@
 
 import React from 'react'
 
-const Note = ({ note }) => {
+const Note = ({ person }) => {
   return (
-    <li>{note.content}</li>
+    <li>{person.name}</li>
   )
 }
 

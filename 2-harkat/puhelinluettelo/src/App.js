@@ -5,8 +5,8 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      notes: props.notes,
-      newNote: '',
+      persons: props.persons,
+      newName: '',
       showAll: true
     }
   }
@@ -15,45 +15,45 @@ class App extends React.Component {
     this.setState({ showAll: !this.state.showAll })
   }
 
-  addNote = (event) => {
+  addPhoneNumber = (event) => {
     event.preventDefault()
-    const noteObject = {
-      content: this.state.newNote,
+    const phoneNumberObject = {
+      name: this.state.newName,
       date: new Date().new,
       important: Math.random() > 0.5,
-      id: this.state.notes.length + 1
+      id: this.state.persons.length + 1
     }
 
-    const notes = this.state.notes.concat(noteObject)
+    const persons = this.state.persons.concat(phoneNumberObject)
 
     this.setState({
-      notes,
-      newNote: ''
+      persons,
+      newName: ''
     })
   }
 
-  handleNoteChange = (event) => {
+  handleNameChange = (event) => {
     console.log(event.target.value)
-    this.setState({ newNote: event.target.value })
+    this.setState({ newName: event.target.value })
   }
 
   render() {
-    const notesToShow =
+    const phoneNumbersToShow =
       this.state.showAll ?
-        this.state.notes :
-        this.state.notes.filter(note => note.important === true)
+        this.state.persons :
+        this.state.persons.filter(person => person.important === true)
 
     const label = this.state.showAll ? 'vain tärkeät' : 'kaikki'
 
     return (
               <div>
                 <h2>Puhelinluettelo</h2>
-                <form onSubmit={this.addNote}>
+                <form onSubmit={this.addPhoneNumber}>
                   <div>
                     nimi: 
                     <input 
-                        value={this.state.newNote} 
-                        onChange={this.handleNoteChange}
+                        value={this.state.newName} 
+                        onChange={this.handleNameChange}
                     />
 
                   </div>
@@ -63,7 +63,7 @@ class App extends React.Component {
                 </form>
                 <h2>Numerot</h2>
                 <ul>
-                    {notesToShow.map(note => <Note key={note.id} note={note} />)}
+                    {phoneNumbersToShow.map(person => <Note key={person.id} person={person} />)}
                 </ul>
               </div>
             )

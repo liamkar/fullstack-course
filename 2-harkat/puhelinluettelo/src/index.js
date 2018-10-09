@@ -3,10 +3,30 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import App from './App'
 
+/*
+this.state = {
+  persons: [
+    { name: 'Arto Hellas' }
+  ],
+  newName: ''
+}
+*/
+
+const persons = [
+  {
+    id: 1,
+    name: 'Arto Hellas',
+    date: '2017-12-10T17:30:31.098Z',
+    important: true
+  }
+]
+
+
+/*
 const notes = [
   {
     id: 1,
-    content: 'HTML on helppoa',
+    content: 'Arto Hellas',
     date: '2017-12-10T17:30:31.098Z',
     important: true
   },
@@ -23,8 +43,9 @@ const notes = [
     important: true
   }
 ]
+*/
 
 ReactDOM.render(
-  <App notes={notes} />,
+  <App persons={persons} />,
   document.getElementById('root')
 )
