@@ -16,6 +16,7 @@ const persons = [
   {
     id: 1,
     name: 'Arto Hellas',
+    phoneNumber: '+358-44556677',
     date: '2017-12-10T17:30:31.098Z',
     important: true
   }

@@ -7,6 +7,7 @@ class App extends React.Component {
     this.state = {
       persons: props.persons,
       newName: '',
+      newPhoneNumber: '',
       showAll: true
     }
   }
@@ -19,13 +20,14 @@ class App extends React.Component {
     event.preventDefault()
     const phoneNumberObject = {
       name: this.state.newName,
+      phoneNumber: this.state.newPhoneNumber,
       date: new Date().new,
       important: Math.random() > 0.5,
       id: this.state.persons.length + 1
     }
 
     let nameAlreadyInUse = this.state.persons.filter(obj => {
-        return obj.name === this.state.newName
+        return (obj.name === this.state.newName || obj.phoneNumber === this.state.newPhoneNumber)
       })
 
       console.log(nameAlreadyInUse);
@@ -36,17 +38,24 @@ class App extends React.Component {
 
         this.setState({
             persons,
-            newName: ''
+            newName: '', 
+            newPhoneNumber: ''
         })
 }
     else {
-        alert('Name is already in use!');
+        alert('Name or phone number is already in use!');
     }
   }
 
   handleNameChange = (event) => {
     console.log(event.target.value)
     this.setState({ newName: event.target.value })
+  }
+
+
+  handlePhoneNumberChange = (event) => {
+    console.log(event.target.value)
+    this.setState({ newPhoneNumber: event.target.value })
   }
 
   render() {
@@ -66,6 +75,12 @@ class App extends React.Component {
                     <input 
                         value={this.state.newName} 
                         onChange={this.handleNameChange}
+                    />
+
+                    puhelinnumero: 
+                    <input 
+                        value={this.state.newPhoneNumber} 
+                        onChange={this.handlePhoneNumberChange}
                     />
 
                   </div>
