@@ -12,6 +12,7 @@ this.state = {
 }
 */
 
+/*
 const persons = [
   {
     id: 1,
@@ -21,7 +22,7 @@ const persons = [
     important: true
   }
 ]
-
+*/
 
 /*
 const notes = [
@@ -47,6 +48,6 @@ const notes = [
 */
 
 ReactDOM.render(
-  <App persons={persons} />,
+  <App />,
   document.getElementById('root')
 )

@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import Note from './components/Note'
 import Filter from './components/Filter'
 
@@ -6,13 +7,25 @@ class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      persons: props.persons,
+      persons: [],
       newName: '',
       newPhoneNumber: '',
       showAll: true,
       filter: ''
     }
   }
+
+  componentDidMount() {
+    console.log('did mount')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        this.setState({ persons: response.data })
+      })
+  }
+
+
 
   toggleVisible = () => {
     this.setState({ showAll: !this.state.showAll })
@@ -22,14 +35,14 @@ class App extends React.Component {
     event.preventDefault()
     const phoneNumberObject = {
       name: this.state.newName,
-      phoneNumber: this.state.newPhoneNumber,
+      number: this.state.newPhoneNumber,
       date: new Date().new,
       important: Math.random() > 0.5,
       id: this.state.persons.length + 1
     }
 
     let nameAlreadyInUse = this.state.persons.filter(obj => {
-        return (obj.name === this.state.newName || obj.phoneNumber === this.state.newPhoneNumber)
+        return (obj.name === this.state.newName || obj.number === this.state.newPhoneNumber)
       })
 
       console.log(nameAlreadyInUse);
@@ -75,7 +88,7 @@ class App extends React.Component {
       this.state.filter.length <= 0 ?
         this.state.persons :
         this.state.persons.filter(person => ((person.name.toLowerCase().indexOf(this.state.filter.toLowerCase()) > -1) ||
-         ((person.phoneNumber.toLowerCase().indexOf(this.state.filter.toLowerCase()) > -1))))
+         ((person.number.toLowerCase().indexOf(this.state.filter.toLowerCase()) > -1))))
 
     return (
               <div>
