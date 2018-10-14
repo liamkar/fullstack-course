@@ -30,6 +30,14 @@ class App extends Component {
     this.setState({ filter: event.target.value })
   }
 
+
+  clickCountryName = (event) => {
+    console.log('country was clicked on the list: ',event.target.innerText)
+
+    this.setState({ filter: event.target.innerText })
+  }
+
+
   render() {
 
     let countriesToShow = [];
@@ -83,8 +91,9 @@ class App extends Component {
             </div>
         }
         
+
           <ul>
-            {countriesToShow.map(country => <li key={country.alpha2Code}>{country.name}</li>)}
+            {countriesToShow.map(country => <li onClick={this.clickCountryName} key={country.alpha2Code}>{country.name}</li>)}
           </ul>
       </div>
     );
