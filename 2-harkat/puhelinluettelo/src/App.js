@@ -41,13 +41,54 @@ componentDidMount() {
       //id: this.state.persons.length + 1
     }
 
+    /*
     let nameAlreadyInUse = this.state.persons.filter(obj => {
         return (obj.name === this.state.newName || obj.number === this.state.newPhoneNumber)
       })
+     */
+
+    let nameAlreadyInUse = this.state.persons.filter(obj => {
+      return (obj.name === this.state.newName)
+    })
+
+    let phoneNumberAlreadyInUse = this.state.persons.filter(obj => {
+      return (obj.number === this.state.newPhoneNumber)
+    }) 
 
       console.log(nameAlreadyInUse);
 
-    if (nameAlreadyInUse.length === 0) { 
+    let proceedWithPhoneNumberReplace = false
+    if (!(nameAlreadyInUse.length === 0)) {
+      //alert(this.state.newName + 'already in use. Shall we replace the old phone number?');
+      proceedWithPhoneNumberReplace = window.confirm(this.state.newName + "already in use. Shall we replace the old phone number?");
+    }
+
+    if (proceedWithPhoneNumberReplace) {
+      const personToBeChangedId = nameAlreadyInUse[0].id
+
+      const person = this.state.persons.find(p => p.id === personToBeChangedId)
+      const changedPerson = { ...person, number: this.state.newPhoneNumber }
+
+      personService
+        .update(nameAlreadyInUse[0].id, phoneNumberObject)
+        .then(persons => {
+          console.log('update was a success, next update state')      
+          const untouchedPersons = this.state.persons.filter(n => n.id !== personToBeChangedId)
+          this.setState({
+            persons: untouchedPersons.concat(changedPerson)
+          })
+          /*
+          this.setState({
+            persons: this.state.persons.concat(persons),
+            newName: '',
+            newPhoneNumber: ''
+          })
+          */
+        })
+    }
+
+    else if (nameAlreadyInUse.length === 0 &&
+        phoneNumberAlreadyInUse.length === 0) { 
 
         personService
         .create(phoneNumberObject)
@@ -84,8 +125,6 @@ componentDidMount() {
 
 removePhoneNumber = (id) => {
   return () => {
-    //const url = `http://localhost:3001/persons/${id}`
-
     personService
     .remove(id)      
       .then(whatever => {
