@@ -16,18 +16,6 @@ class App extends React.Component {
     }
   }
 
-  /*
-  componentDidMount() {
-    console.log('did mount')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        this.setState({ persons: response.data })
-      })
-  }
-*/
-
 componentDidMount() {
   console.log('did mount')
 
@@ -49,7 +37,7 @@ componentDidMount() {
       number: this.state.newPhoneNumber,
       date: new Date().new,
       important: Math.random() > 0.5
-      //is our dummy server able to generate an id automatically????
+      //our dummy server seems to be able to create id automatically...
       //id: this.state.persons.length + 1
     }
 
@@ -61,39 +49,16 @@ componentDidMount() {
 
     if (nameAlreadyInUse.length === 0) { 
 
-        //const persons = this.state.persons.concat(phoneNumberObject)
-
         personService
         .create(phoneNumberObject)
         .then(persons => {
-          console.log('post was a success, next update state')
-          //this.setState({persons: persons})
+          console.log('post was a success, next update state')      
           this.setState({
             persons: this.state.persons.concat(persons),
             newName: '',
             newPhoneNumber: ''
           })
         })
-
-        /*
-        axios.post('http://localhost:3001/persons', phoneNumberObject)
-        .then(response => {
-          console.log('post was a success, next update state')
-          this.setState({
-            persons: this.state.persons.concat(response.data),
-            newName: '',
-            newPhoneNumber: ''
-          })
-        })
-        */
-
-        /*
-        this.setState({
-            persons,
-            newName: '', 
-            newPhoneNumber: ''
-        })
-        */
     }
     else {
         alert('Name or phone number is already in use!');
@@ -116,6 +81,23 @@ componentDidMount() {
     console.log(event.target.value)
     this.setState({ newPhoneNumber: event.target.value })
   }
+
+removePhoneNumber = (id) => {
+  return () => {
+    //const url = `http://localhost:3001/persons/${id}`
+
+    personService
+    .remove(id)      
+      .then(whatever => {
+        const persons = this.state.persons.filter(n => n.id !== id)
+        this.setState({
+          persons: persons,
+          newName: '',
+          newPhoneNumber: ''
+        })
+      })  }
+}
+
 
   render() {
 
@@ -158,7 +140,7 @@ componentDidMount() {
                 </form>
                 <h2>Numerot</h2>
                 <ul>
-                    {phoneNumbersToShow.map(person => <Note key={person.id} person={person} />)}
+                    {phoneNumbersToShow.map(person => <Note key={person.id} person={person} handlePersonRemove={this.removePhoneNumber(person.id)} />)}
                 </ul>
               </div>
             )
