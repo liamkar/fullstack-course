@@ -31,14 +31,17 @@ class App extends React.Component {
     this.setState({ showAll: !this.state.showAll })
   }
 
+
+
   addPhoneNumber = (event) => {
     event.preventDefault()
     const phoneNumberObject = {
       name: this.state.newName,
       number: this.state.newPhoneNumber,
       date: new Date().new,
-      important: Math.random() > 0.5,
-      id: this.state.persons.length + 1
+      important: Math.random() > 0.5
+      //is our dummy server able to generate an id automatically????
+      //id: this.state.persons.length + 1
     }
 
     let nameAlreadyInUse = this.state.persons.filter(obj => {
@@ -49,14 +52,26 @@ class App extends React.Component {
 
     if (nameAlreadyInUse.length === 0) { 
 
-        const persons = this.state.persons.concat(phoneNumberObject)
+        //const persons = this.state.persons.concat(phoneNumberObject)
 
+        axios.post('http://localhost:3001/persons', phoneNumberObject)
+        .then(response => {
+          console.log('post was a success, next update state')
+          this.setState({
+            persons: this.state.persons.concat(response.data),
+            newName: '',
+            newPhoneNumber: ''
+          })
+        })
+        
+        /*
         this.setState({
             persons,
             newName: '', 
             newPhoneNumber: ''
         })
-}
+        */
+    }
     else {
         alert('Name or phone number is already in use!');
     }
@@ -92,7 +107,7 @@ class App extends React.Component {
 
     return (
               <div>
-                <h2>Puhelinluettelo</h2>
+                <h2>Puhelinluettelo tete</h2>
                 <div>
 
                     <Filter filter={this.state.filter} handleFilterChange={this.handleFilterChange} />
