@@ -80,7 +80,6 @@ componentDidMount() {
             persons: untouchedPersons.concat(changedPerson),
             message: 'phone number update succesful'
           })
-
           setTimeout(() => {
             this.setState({message: null})
           }, 5000)
@@ -92,6 +91,11 @@ componentDidMount() {
           })
           */
         })
+        .catch(error => {
+          console.log('PERSON TO BE UPDATED WAS NOT FOUND')
+          alert('Person you tried to update has already been removed!!!!!!')
+        })
+
     }
 
     else if (nameAlreadyInUse.length === 0 &&

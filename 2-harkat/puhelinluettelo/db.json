@@ -1,24 +1,6 @@
 {
   "persons": [
     {
-      "name": "vivivivi",
-      "number": "73737373",
-      "important": true,
-      "id": 6
-    },
-    {
-      "name": "pfewpfpoewf",
-      "number": "42389478329",
-      "important": false,
-      "id": 7
-    },
-    {
-      "name": "ville",
-      "number": "911",
-      "important": true,
-      "id": 8
-    },
-    {
       "name": "vesa",
       "number": "321321",
       "important": true,
