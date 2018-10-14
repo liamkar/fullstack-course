@@ -2,6 +2,7 @@ import React from 'react'
 //import axios from 'axios'
 import Note from './components/Note'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 class App extends React.Component {
@@ -12,7 +13,8 @@ class App extends React.Component {
       newName: '',
       newPhoneNumber: '',
       showAll: true,
-      filter: ''
+      filter: '',
+      message: null
     }
   }
 
@@ -75,8 +77,13 @@ componentDidMount() {
           console.log('update was a success, next update state')      
           const untouchedPersons = this.state.persons.filter(n => n.id !== personToBeChangedId)
           this.setState({
-            persons: untouchedPersons.concat(changedPerson)
+            persons: untouchedPersons.concat(changedPerson),
+            message: 'phone number update succesful'
           })
+
+          setTimeout(() => {
+            this.setState({message: null})
+          }, 5000)
           /*
           this.setState({
             persons: this.state.persons.concat(persons),
@@ -97,8 +104,15 @@ componentDidMount() {
           this.setState({
             persons: this.state.persons.concat(persons),
             newName: '',
-            newPhoneNumber: ''
+            newPhoneNumber: '',
+            message: 'new person added succesfully'
           })
+
+          setTimeout(() => {
+            this.setState({message: null})
+          }, 5000)
+
+          
         })
     }
     else {
@@ -132,8 +146,15 @@ removePhoneNumber = (id) => {
         this.setState({
           persons: persons,
           newName: '',
-          newPhoneNumber: ''
+          newPhoneNumber: '',
+          message: 'person removed succesfully.'
         })
+
+
+        setTimeout(() => {
+          this.setState({message: null})
+        }, 5000)
+
       })  }
 }
 
@@ -152,6 +173,7 @@ removePhoneNumber = (id) => {
     return (
               <div>
                 <h2>Puhelinluettelo tete</h2>
+                <Notification message={this.state.message}/>
                 <div>
 
                     <Filter filter={this.state.filter} handleFilterChange={this.handleFilterChange} />

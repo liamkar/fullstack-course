@@ -1,11 +1,6 @@
 {
   "persons": [
     {
-      "name": "Lea Kutvonen",
-      "number": "040-123456",
-      "id": 4
-    },
-    {
       "name": "vivivivi",
       "number": "73737373",
       "important": true,
@@ -22,6 +17,30 @@
       "number": "911",
       "important": true,
       "id": 8
+    },
+    {
+      "name": "vesa",
+      "number": "321321",
+      "important": true,
+      "id": 9
+    },
+    {
+      "name": "arja",
+      "number": "3213214324",
+      "important": true,
+      "id": 10
+    },
+    {
+      "name": "arja2",
+      "number": "3213212222",
+      "important": true,
+      "id": 11
+    },
+    {
+      "name": "vivivi",
+      "number": "1312412421421",
+      "important": false,
+      "id": 12
     }
   ]
 }
