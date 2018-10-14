@@ -1,7 +1,8 @@
 import React from 'react'
-import axios from 'axios'
+//import axios from 'axios'
 import Note from './components/Note'
 import Filter from './components/Filter'
+import personService from './services/persons'
 
 class App extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class App extends React.Component {
     }
   }
 
+  /*
   componentDidMount() {
     console.log('did mount')
     axios
@@ -24,14 +26,21 @@ class App extends React.Component {
         this.setState({ persons: response.data })
       })
   }
+*/
 
+componentDidMount() {
+  console.log('did mount')
 
+  personService
+  .getAll()
+  .then(persons => {
+    this.setState({persons: persons})
+  })
+}
 
   toggleVisible = () => {
     this.setState({ showAll: !this.state.showAll })
   }
-
-
 
   addPhoneNumber = (event) => {
     event.preventDefault()
@@ -54,6 +63,19 @@ class App extends React.Component {
 
         //const persons = this.state.persons.concat(phoneNumberObject)
 
+        personService
+        .create(phoneNumberObject)
+        .then(persons => {
+          console.log('post was a success, next update state')
+          //this.setState({persons: persons})
+          this.setState({
+            persons: this.state.persons.concat(persons),
+            newName: '',
+            newPhoneNumber: ''
+          })
+        })
+
+        /*
         axios.post('http://localhost:3001/persons', phoneNumberObject)
         .then(response => {
           console.log('post was a success, next update state')
@@ -63,7 +85,8 @@ class App extends React.Component {
             newPhoneNumber: ''
           })
         })
-        
+        */
+
         /*
         this.setState({
             persons,
