@@ -1,5 +1,8 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3001/api/persons'
+
+//url for Heroku APP - but can work in standalone if configured properly.
+const baseUrl = '/api/persons'
+//const baseUrl = 'http://localhost:3001/api/persons'
 
 const getAll = () => {
   const request = axios.get(baseUrl)
