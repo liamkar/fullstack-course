@@ -11,7 +11,23 @@ const dummy = (blogs) => {
       return totalLikes
   }
 
+
+  const mostLikes = (blogs) => {
+    
+    let mostLikes = 0
+    let mostLikedBlog = undefined
+
+    for (var blog of blogs) {
+        if (blog.likes > mostLikes) {
+          mostLikes = blog.likes
+          mostLikedBlog = blog
+        }
+      }
+      return mostLikedBlog
+  }
+
   module.exports = {
     dummy,
-    totalLikes
+    totalLikes,
+    mostLikes
   }
