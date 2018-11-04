@@ -1,6 +1,9 @@
 const blogsRouter = require('express').Router()
+const Blog = require('../models/blog')
 
+/*
 const mongoose = require('mongoose')
+
 
 const Blog = mongoose.model('Blog', {
   author: String,
@@ -8,6 +11,7 @@ const Blog = mongoose.model('Blog', {
   url: String,
   votes: Number
 })
+*/
 
 blogsRouter.get('/', (request, response) => {
   Blog
