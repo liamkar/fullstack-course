@@ -18,6 +18,8 @@ blogsRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
+//old promise version of the GET
+/*
 blogsRouter.post('/', (request, response) => {
   const blog = new Blog(request.body)
 
@@ -26,6 +28,15 @@ blogsRouter.post('/', (request, response) => {
     .then(result => {
       response.status(201).json(result)
     })
+})
+*/
+
+////new async await version of the POST
+blogsRouter.post('/', async (request, response) => {
+  const blog = new Blog(request.body)
+
+  const savedBlog = await blog.save()
+  response.status(201).json(savedBlog)
 })
 
 module.exports = blogsRouter
