@@ -51,6 +51,50 @@ describe('API tests', () => {
     expect(contents).toContain('Rum sodomy and lash')
   })
 
+  test('a valid blog can be added ', async () => {
+    const newBlog = {
+      author: 'Bob Dylan',
+      title: 'Subterranean homesick blues',
+      url:'www.dylan.com',
+      votes: 99
+    }
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+  
+    const response = await api
+      .get('/api/blogs')
+
+    const contents = response.body.map(r => r.title)
+  
+    expect(response.body.length).toBe(initialBlogs.length + 1)
+    expect(contents).toContain('Subterranean homesick blues')
+  })
+
+  /*
+  test('blog without author title info is not added ', async () => {
+    const newBlog = {
+      votes: 10838 
+    }
+  
+    const intialBlogs = await api
+      .get('/api/blogs')
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  
+    const response = await api
+      .get('/api/blogs')
+  
+    expect(response.body.length).toBe(intialBlogs.body.length)
+  })
+  */
+
   afterAll(() => {
     server.close()
   })
