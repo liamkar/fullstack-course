@@ -39,6 +39,10 @@ blogsRouter.post('/', async (request, response) => {
     blog.votes = 0
   }
 
+  if (!blog.url || !blog.title) {
+    return response.status(400).json({ error: 'url or title missing' })
+  }
+
   const savedBlog = await blog.save()
   response.status(201).json(savedBlog)
 })

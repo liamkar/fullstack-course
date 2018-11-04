@@ -94,6 +94,63 @@ describe('API tests', () => {
   })
   
 
+  test('blog without url or title is not added ', async () => {
+    const newBlogWithoutTitle = {
+      author: 'ville',
+      url: 'test.url',
+      votes: 1
+    }
+  
+    const newBlogWithoutUrl = {
+      author: 'ville',
+      title: 'titteli',
+      votes: 1
+    }
+
+    const newBlogWithoutUrlAndTitle = {
+      author: 'ville',
+      votes: 1
+    }
+
+    const newBlogWithEmptyValuesOnTitleAndUrl = {
+      author: 'ville',
+      title: '',
+      url: '',
+      votes: 1
+    }
+
+    const intialBlogs = await api
+      .get('/api/blogs')
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlogWithoutTitle)
+      .expect(400)
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlogWithoutUrl)
+      .expect(400)
+  
+    await api
+      .post('/api/blogs')
+      .send(newBlogWithoutUrlAndTitle)
+      .expect(400)
+
+      await api
+      .post('/api/blogs')
+      .send(newBlogWithEmptyValuesOnTitleAndUrl)
+      .expect(400)
+
+
+    const response = await api
+      .get('/api/blogs')
+  
+    expect(response.body.length).toBe(intialBlogs.body.length)
+  })
+
+
+
   afterAll(() => {
     server.close()
   })
