@@ -35,6 +35,10 @@ blogsRouter.post('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
+  if (blog.votes === undefined) {
+    blog.votes = 0
+  }
+
   const savedBlog = await blog.save()
   response.status(201).json(savedBlog)
 })

@@ -74,26 +74,25 @@ describe('API tests', () => {
     expect(contents).toContain('Subterranean homesick blues')
   })
 
-  /*
-  test('blog without author title info is not added ', async () => {
+  test('blog without votes will get zero value by default ', async () => {
     const newBlog = {
-      votes: 10838 
+       author: 'Herman Melville',
+       title: 'Moby Dick',
+       url: 'www.melville.com'
     }
   
     const intialBlogs = await api
       .get('/api/blogs')
   
-    await api
+    const newBlogReturned = await api
       .post('/api/blogs')
       .send(newBlog)
-      .expect(400)
-  
-    const response = await api
-      .get('/api/blogs')
-  
-    expect(response.body.length).toBe(intialBlogs.body.length)
+      .expect(201)
+      console.log(newBlogReturned.body)
+
+      expect(newBlogReturned.body.votes).toEqual(0)
   })
-  */
+  
 
   afterAll(() => {
     server.close()
