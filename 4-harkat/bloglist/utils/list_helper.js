@@ -12,7 +12,7 @@ const dummy = (blogs) => {
   }
 
 
-  const mostLikes = (blogs) => {
+  const favoriteBlog = (blogs) => {
     
     let mostLikes = 0
     let mostLikedBlog = undefined
@@ -61,6 +61,6 @@ const dummy = (blogs) => {
   module.exports = {
     dummy,
     totalLikes,
-    mostLikes,
+    favoriteBlog,
     mostBlogs
   }

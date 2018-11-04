@@ -84,7 +84,7 @@ describe('total likes', () => {
       ]
 
     test('when list has only one blog equals the likes of that', () => {
-      const result = listHelper.mostLikes(listWithOneBlog)
+      const result = listHelper.favoriteBlog(listWithOneBlog)
       //expect(result).toBe(listWithOneBlog[0])
       expect(result.title).toEqual('Go To Statement Considered Harmful')
       expect(result.author).toEqual('Edsger W. Dijkstra')
@@ -92,12 +92,12 @@ describe('total likes', () => {
     })
 
     test('when list has no items at all result should be undefined', () => {
-        const result = listHelper.mostLikes(emptyList)
+        const result = listHelper.favoriteBlog(emptyList)
         expect(result).toBe(undefined)
       })
 
       test('when list has more than one item result should be object containing the highest of all', () => {
-        const result = listHelper.mostLikes(listWithTwoBlogs)
+        const result = listHelper.favoriteBlog(listWithTwoBlogs)
         //expect(result).toBe(listWithTwoBlogs[0])
         expect(result.title).toEqual('Hey Hey')
         expect(result.author).toEqual('My my')
