@@ -54,6 +54,26 @@ const dummy = (blogs) => {
           mostBlogs.set(author, 1)
         }
     }
+
+    let authorWithMostBlogs 
+    let amountOfBlogs = 0
+
+    function logMapElements(value, key, map) {
+      //console.log(`m[${key}] = ${value}`);
+      if (value > amountOfBlogs) {
+        amountOfBlogs = value
+        authorWithMostBlogs = key
+      }
+    }
+    
+    //new Map([['foo', 3], ['bar', {}], ['baz', undefined]])
+    mostBlogs.forEach(logMapElements)
+
+    return {
+      "author": authorWithMostBlogs,
+      "blogs": amountOfBlogs
+    }
+
   }
 
 
