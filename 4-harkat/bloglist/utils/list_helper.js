@@ -78,8 +78,8 @@ const dummy = (blogs) => {
 
     for (var blog of blogs) {
         let author = blog.author
-        if (mostBlogs.has(author)) {
-          let count = mostBlogs.get(author)
+        if (mostLikes.has(author)) {
+          let count = mostLikes.get(author)
           mostLikes.set(author,count+blog.likes)
         }
         else {
@@ -101,7 +101,7 @@ const dummy = (blogs) => {
 
     return {
       "author": authorWithMostLikes,
-      "blogs": amountOfLikes
+      "likes": amountOfLikes
     }
   }
 
