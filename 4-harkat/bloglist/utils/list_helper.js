@@ -23,11 +23,44 @@ const dummy = (blogs) => {
           mostLikedBlog = blog
         }
       }
-      return mostLikedBlog
+
+      if (mostLikedBlog) {
+
+      return {
+              "title": mostLikedBlog.title,
+              "author": mostLikedBlog.author,
+              "likes": mostLikes
+              }
+            }
+            else {
+              return mostLikedBlog
+            }
+      //mostLikedBlog        
   }
+
+
+
+  const mostBlogs = (blogs) => {
+  
+    let mostBlogs = new Map()
+
+    for (var blog of blogs) {
+        let author = blog.author
+        if (mostBlogs.has(author)) {
+          let count = mostBlogs.get(author)
+          mostBlogs.set(author,++count)
+        }
+        else {
+          mostBlogs.set(author, 1)
+        }
+    }
+  }
+
+
 
   module.exports = {
     dummy,
     totalLikes,
-    mostLikes
+    mostLikes,
+    mostBlogs
   }
