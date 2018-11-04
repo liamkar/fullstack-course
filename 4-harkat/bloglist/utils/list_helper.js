@@ -35,7 +35,6 @@ const dummy = (blogs) => {
             else {
               return mostLikedBlog
             }
-      //mostLikedBlog        
   }
 
 
@@ -59,28 +58,58 @@ const dummy = (blogs) => {
     let amountOfBlogs = 0
 
     function logMapElements(value, key, map) {
-      //console.log(`m[${key}] = ${value}`);
       if (value > amountOfBlogs) {
         amountOfBlogs = value
         authorWithMostBlogs = key
       }
     }
     
-    //new Map([['foo', 3], ['bar', {}], ['baz', undefined]])
     mostBlogs.forEach(logMapElements)
 
     return {
       "author": authorWithMostBlogs,
       "blogs": amountOfBlogs
     }
-
   }
 
+  const mostLikes = (blogs) => {
+  
+    let mostLikes = new Map()
+
+    for (var blog of blogs) {
+        let author = blog.author
+        if (mostBlogs.has(author)) {
+          let count = mostBlogs.get(author)
+          mostLikes.set(author,count+blog.likes)
+        }
+        else {
+          mostLikes.set(author, blog.likes)
+        }
+    }
+
+    let authorWithMostLikes 
+    let amountOfLikes = 0
+
+    function logMapElements(value, key, map) {
+      if (value > amountOfLikes) {
+        amountOfLikes = value
+        authorWithMostLikes = key
+      }
+    }
+    
+    mostLikes.forEach(logMapElements)
+
+    return {
+      "author": authorWithMostLikes,
+      "blogs": amountOfLikes
+    }
+  }
 
 
   module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
   }
