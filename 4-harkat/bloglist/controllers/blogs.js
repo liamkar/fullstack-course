@@ -1,24 +1,21 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 
+//old promise version of GET
 /*
-const mongoose = require('mongoose')
-
-
-const Blog = mongoose.model('Blog', {
-  author: String,
-  title: String,
-  url: String,
-  votes: Number
-})
-*/
-
 blogsRouter.get('/', (request, response) => {
   Blog
     .find({})
     .then(blogs => {
       response.json(blogs)
     })
+})
+*/
+
+//new async await version of the GET
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({})
+  response.json(blogs)
 })
 
 blogsRouter.post('/', (request, response) => {
