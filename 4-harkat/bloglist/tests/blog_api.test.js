@@ -156,6 +156,35 @@ describe('API tests', () => {
     expect(response.body.length).toBe(intialBlogs.body.length)
   })
 
+  describe('deletion of a note', async () => {
+    let addedBlog
+
+    beforeAll(async () => {
+      addedBlog = new Blog({
+        author: 'Ville K',
+        title: 'poisto pyynnöllä HTTP DELETE',
+        votes: 99
+      })
+      await addedBlog.save()
+    })
+
+
+  test('DELETE /api/blogs/:id succeeds with proper statuscode', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+
+    await api
+      .delete(`/api/blogs/${addedBlog._id}`)
+      .expect(204)
+
+    const blogsAfterOperation = await helper.blogsInDb()
+
+    const titles = blogsAfterOperation.map(r => r.title)
+
+    expect(titles).not.toContain(addedBlog.title)
+    expect(blogsAfterOperation.length).toBe(blogsAtStart.length - 1)
+  })
+})
+
   afterAll(() => {
     server.close()
   })
