@@ -185,6 +185,23 @@ describe('API tests', () => {
   })
 })
 
+test('UPDATE /api/blogs/:id succeeds', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+
+  const firstBlog = blogsAtStart[0]
+  console.log('firstBlog:', firstBlog)
+  const firstBlogVotesBefore = firstBlog.votes
+  firstBlog.votes = firstBlog.votes +1
+
+  const firstBlogAfterUpdate = await api.put(`/api/blogs/${firstBlog.id}`).send(firstBlog)
+  console.log('firstBlogAfterUpdate:',firstBlogAfterUpdate)
+  const response = await api.get(`/api/blogs/${firstBlogAfterUpdate.body._id}`)
+  console.log('response.body:',response.body)
+  expect(firstBlogVotesBefore+1).toBe(response.body.votes)
+})
+
+
+
   afterAll(() => {
     server.close()
   })

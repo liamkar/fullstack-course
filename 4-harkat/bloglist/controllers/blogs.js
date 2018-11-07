@@ -48,6 +48,14 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 
+blogsRouter.get('/:id', async (request, response) => {
+  console.log('id at GET:',request.params.id)
+  const blog = await Blog.findById(request.params.id)
+  console.log('blog found by get:id:',blog)
+  response.json(blog)
+})
+
+
 blogsRouter.delete('/:id', async (request, response) => {
   try {
     await Blog.findByIdAndRemove(request.params.id)
@@ -57,6 +65,35 @@ blogsRouter.delete('/:id', async (request, response) => {
     console.log(exception)
     response.status(400).send({ error: 'malformatted id' })
   }
+})
+
+blogsRouter.put('/:id', async (request, response) => {
+  const body = request.body
+
+  const blog = {
+    author: body.author,
+    title: body.title,
+    url: body.url,
+    votes: body.votes,
+    id: body._id
+  }
+
+  console.log(body.id)
+  console.log(body._id)
+
+  try {
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true } )
+    //response.status(204).end()
+    //response.json(helper.format(updatedBlog))
+    console.log('update successful, updated object:',updatedBlog)
+    response.json(updatedBlog)
+    //response.status(201).json(savedBlog)
+
+  } catch (exception) {
+    console.log(exception)
+    response.status(400).send({ error: 'malformatted id' })
+  }
+
 })
 
 module.exports = blogsRouter
