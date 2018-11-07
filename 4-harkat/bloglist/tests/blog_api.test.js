@@ -2,28 +2,14 @@ const supertest = require('supertest')
 const { app, server } = require('../index')
 const api = supertest(app)
 const Blog = require('../models/blog')
-
-const initialBlogs = [
-  {
-    author: 'Nick Cave',
-    title: 'Abattoir blues',
-    url:'www.nickcave.com',
-    votes: 66
-  },
-  {
-    author: 'Shane McGowan',
-    title: 'Rum sodomy and lash',
-    url:'www.shanemcgowan.com',
-    votes: 67
-  }
-]
+const helper = require('./test_helper')
 
 describe('API tests', () => {
-  
+
   beforeAll(async () => {
     await Blog.remove({})
   
-    const blogObjects = initialBlogs.map(blog => new Blog(blog))
+    const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
     const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
   })
@@ -36,10 +22,14 @@ describe('API tests', () => {
   })
 
   test('all blogs are returned', async () => {
+
+    const blogsInDatabase = await helper.blogsInDb()
+
     const response = await api
       .get('/api/blogs')
-  
-    expect(response.body.length).toBe(initialBlogs.length)
+
+    expect(response.body.length).toBe(blogsInDatabase.length)
+
   })
 
   test('a specific blog is within the returned blogs', async () => {
@@ -58,20 +48,38 @@ describe('API tests', () => {
       url:'www.dylan.com',
       votes: 99
     }
+
+    const blogsBefore = await helper.blogsInDb()
   
-    await api
+    const newSavedBlog = await api
       .post('/api/blogs')
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
   
+    /*  
     const response = await api
       .get('/api/blogs')
 
-    const contents = response.body.map(r => r.title)
-  
-    expect(response.body.length).toBe(initialBlogs.length + 1)
-    expect(contents).toContain('Subterranean homesick blues')
+      */
+    //const contents = response.body.map(r => r.title)
+    //expect(response.body.length).toBe(helper.initialBlogs.length + 1)
+    //expect(contents).toContain('Subterranean homesick blues')
+
+    const blogsAfter = await helper.blogsInDb()
+
+    expect(blogsAfter.length).toBe(blogsBefore.length+1)
+
+    //ei taida koskaan toimia tälläinen, kun toisesta puuttuu se id?
+    //expect(blogsAfter).toContainEqual(newBlog)
+
+    //eipä toimi vieläkään, vaikka id:tkin on nyt samat... 
+    //expect(blogsAfter).toContainEqual(newSavedBlog.body)
+
+    //..nöyrrytään sen verran tässä kohtaa, että vertaillaan vain yhden kentän arvoa
+    const titles = blogsAfter.map(r => r.title)
+    expect(titles).toContain('Subterranean homesick blues')
+    
   })
 
   test('blog without votes will get zero value by default ', async () => {
@@ -142,14 +150,11 @@ describe('API tests', () => {
       .send(newBlogWithEmptyValuesOnTitleAndUrl)
       .expect(400)
 
-
     const response = await api
       .get('/api/blogs')
   
     expect(response.body.length).toBe(intialBlogs.body.length)
   })
-
-
 
   afterAll(() => {
     server.close()
