@@ -5,5 +5,5 @@ content-type: application/json
     "name": "Marquez",
     "username": "markku99",
     "adult": true,
-    "password": "dummypassword"
+    "password": "du"
 }
