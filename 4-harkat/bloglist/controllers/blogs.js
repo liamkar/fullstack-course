@@ -95,9 +95,6 @@ try {
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
 
-  
-
-
   response.status(201).json(savedBlog)
 
 } catch(exception) {
@@ -122,7 +119,31 @@ blogsRouter.get('/:id', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
   try {
-    await Blog.findByIdAndRemove(request.params.id)
+    //await Blog.findByIdAndRemove(request.params.id)
+
+    const blog = await Blog.findById(request.params.id)
+    
+    //blog can be removed only by a person who created it:
+    const token = request.token
+    console.log('SECRET env variable:',process.env.SECRET)
+    console.log('token returned by middleware method:',token)
+    
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    console.log('right AFTER jwt.veriry')
+    console.log('decodedTokenId:',decodedToken.id)
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+  
+    const user = await User.findById(decodedToken.id)
+    console.log('user got based on decodedToken.id:',user)
+    console.log('userid in blog:',blog.user.toString())
+    console.log('userid in token:',user._id.toString())
+    if (!(blog.user.toString() === user._id.toString())) {
+      return response.status(401).json({ error: 'user has no right to remove this blog' })
+    }
+
+    await Blog.remove({_id: request.params.id})
 
     response.status(204).end()
   } catch (exception) {
