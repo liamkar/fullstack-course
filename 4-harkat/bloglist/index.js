@@ -15,8 +15,25 @@ mongoose
     console.log(err)
   })
 
+  //middleware , where to refactor?
+const tokenExtractor = (request, response, next) => {
+
+      let token = null
+
+      const authorization = request.get('authorization')
+      console.log('authorization send in request',authorization)
+      if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        token = authorization.substring(7)
+      }
+     
+    request.token = token
+    next()
+  }
+
+
 app.use(cors())
 app.use(bodyParser.json())
+app.use(tokenExtractor)
 
 const blogsRouter = require('./controllers/blogs')
 app.use('/api/blogs', blogsRouter)

@@ -5,6 +5,7 @@ const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 
+/*
 const getTokenFrom = (request) => {
   const authorization = request.get('authorization')
   console.log('authorization send in request',authorization)
@@ -13,6 +14,7 @@ const getTokenFrom = (request) => {
   }
   return null
 }
+*/
 
 //old promise version of GET
 /*
@@ -48,18 +50,19 @@ blogsRouter.post('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 try {
-  const token = getTokenFrom(request)
+  //const token = getTokenFrom(request)
+  const token = request.token
   console.log('SECRET env variable:',process.env.SECRET)
-  console.log('token returned by method:',token)
+  console.log('token returned by middleware method:',token)
   //NOTE: for some reason verify goes through even, if env.SECRET does not match with the token...
   //authorization token needs to be the actual token created by this library - if taken just out from the hat 'jwt malformed' happens?
+  //const decodedToken = jwt.verify(token, process.env.SECRET)
   const decodedToken = jwt.verify(token, process.env.SECRET)
   console.log('right AFTER jwt.veriry')
   console.log('decodedTokenId:',decodedToken.id)
   if (!token || !decodedToken.id) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
-
 
   /*
   //temp solution for setting some user id for newly created blogs.
