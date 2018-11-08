@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 //old promise version of GET
 /*
@@ -14,7 +15,7 @@ blogsRouter.get('/', (request, response) => {
 
 //new async await version of the GET
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 } )
   response.json(blogs)
 })
 
@@ -35,6 +36,12 @@ blogsRouter.post('/', (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
+  //temp solution for setting some user id for newly created blogs.
+  const users = await User.find({})
+  const firstUser = users[0]
+  console.log('user id:',firstUser._id)
+  blog.user = firstUser._id
+  
   if (blog.votes === undefined) {
     blog.votes = 0
   }
@@ -44,6 +51,11 @@ blogsRouter.post('/', async (request, response) => {
   }
 
   const savedBlog = await blog.save()
+
+  //we need to set the new blog id for the user as well.
+  firstUser.blogs = firstUser.blogs.concat(savedBlog._id)
+  await firstUser.save()
+
   response.status(201).json(savedBlog)
 })
 
@@ -75,7 +87,8 @@ blogsRouter.put('/:id', async (request, response) => {
     title: body.title,
     url: body.url,
     votes: body.votes,
-    id: body._id
+    id: body._id,
+    user: body.user
   }
 
   console.log(body.id)

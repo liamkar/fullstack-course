@@ -2,8 +2,8 @@ POST http://localhost:3001/api/blogs
 content-type: application/json
 
 {
-    "author": "Marquez",
-    "title": "One hundred years of solitude",
+    "author": "Marquez John",
+    "title": "100 years of solitude",
     "url": "www.marquez.com",
     "likes": "1"
 }

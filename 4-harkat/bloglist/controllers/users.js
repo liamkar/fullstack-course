@@ -9,8 +9,8 @@ const formatUser = (user) => {
       id: user.id,
       username: user.username,
       name: user.name,
-      adult: user.adult
-      //notes: user.notes
+      adult: user.adult,
+      blogs: user.blogs
     }
   }
 
@@ -51,7 +51,7 @@ usersRouter.post('/', async (request, response) => {
 })
 
   usersRouter.get('/', async (request, response) => {
-    const users = await User.find({})
+    const users = await User.find({}).populate('blogs', { author: 1, title: 1, votes:1, url:1, _id:1 })
     response.json(users.map(formatUser))
   })
 

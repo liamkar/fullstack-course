@@ -22,7 +22,8 @@ const format = (blog) => {
     title: blog.title,
     url: blog.url,
     votes: blog.votes,
-    id: blog._id
+    id: blog._id,
+    user: blog.user
   }
 }
 
