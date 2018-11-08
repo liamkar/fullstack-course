@@ -1,11 +1,13 @@
 POST http://localhost:3001/api/blogs
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ijc3NzkiLCJpZCI6IjViZTQ2MmQ3OTViZWJhMzVkY2M1N2M2NiIsImlhdCI6MTU0MTY5NDkzMH0.YR056kipVaqXnZgg-tWSUVgKfVwO-FaW_EDIt8rMqOU
 
 {
     "author": "Marquez John",
     "title": "100 years of solitude",
     "url": "www.marquez.com",
-    "likes": "1"
+    "likes": "1",
+    "userId": "5be462d795beba35dcc57c66"
 }
 
 

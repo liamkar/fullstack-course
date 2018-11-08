@@ -2,6 +2,18 @@ const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
+const jwt = require('jsonwebtoken')
+
+
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization')
+  console.log('authorization send in request',authorization)
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)
+  }
+  return null
+}
+
 //old promise version of GET
 /*
 blogsRouter.get('/', (request, response) => {
@@ -35,13 +47,28 @@ blogsRouter.post('/', (request, response) => {
 ////new async await version of the POST
 blogsRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
+try {
+  const token = getTokenFrom(request)
+  console.log('SECRET env variable:',process.env.SECRET)
+  console.log('token returned by method:',token)
+  //NOTE: for some reason verify goes through even, if env.SECRET does not match with the token...
+  //authorization token needs to be the actual token created by this library - if taken just out from the hat 'jwt malformed' happens?
+  const decodedToken = jwt.verify(token, process.env.SECRET)
+  console.log('right AFTER jwt.veriry')
+  console.log('decodedTokenId:',decodedToken.id)
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
 
+
+  /*
   //temp solution for setting some user id for newly created blogs.
   const users = await User.find({})
   const firstUser = users[0]
   console.log('user id:',firstUser._id)
   blog.user = firstUser._id
-  
+  */
+
   if (blog.votes === undefined) {
     blog.votes = 0
   }
@@ -50,13 +77,35 @@ blogsRouter.post('/', async (request, response) => {
     return response.status(400).json({ error: 'url or title missing' })
   }
 
+  const user = await User.findById(decodedToken.id)
+  console.log('user id found from the token:',user._id)
+  blog.user = user._id
+
   const savedBlog = await blog.save()
 
+  /*
   //we need to set the new blog id for the user as well.
   firstUser.blogs = firstUser.blogs.concat(savedBlog._id)
   await firstUser.save()
+  */
+
+  user.blogs = user.blogs.concat(savedBlog._id)
+  await user.save()
+
+  
+
 
   response.status(201).json(savedBlog)
+
+} catch(exception) {
+  if (exception.name === 'JsonWebTokenError' ) {
+    response.status(401).json({ error: exception.message })
+  } else {
+    console.log(exception)
+    response.status(500).json({ error: 'something went wrong...' })
+  }
+}
+
 })
 
 
