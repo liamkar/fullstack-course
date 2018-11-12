@@ -8,6 +8,9 @@ class App extends React.Component {
     super(props)
     this.state = {
       blogs: [],
+      newtitle: '',
+      newauthor: '',
+      newurl: '',
       username: '',
       password: '',
       user: null
@@ -23,10 +26,47 @@ class App extends React.Component {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       this.setState({user})
-      //blogService.setToken(user.token)
+      blogService.setToken(user.token)
     }
 
-  } 
+  }
+  
+  addBlog = async (event) => {
+    event.preventDefault()
+    const blogObject = {
+      title: this.state.newtitle,
+      author: this.state.newauthor,
+      url: this.state.newurl
+      //TODO:
+      //date: new Date(),
+      //important: Math.random() > 0.5
+    }
+
+    console.log('adding new blogObject:',blogObject)
+
+    const newBlog = await blogService.create(blogObject)
+    console.log('returned newBlog:',newBlog)
+
+    console.log('update set state')
+    this.setState({
+      blogs: this.state.blogs.concat(newBlog),
+      newtitle: '',
+      newauthor: '',
+      newurl: ''
+    })
+
+    /*
+    blogService
+      .create(noteObject)
+      .then(newNote => {
+        this.setState({
+          notes: this.state.notes.concat(newNote),
+          newNote: ''
+        })
+      })
+      */
+  }
+
 
   login = async (event) => {
     event.preventDefault()
@@ -38,7 +78,7 @@ class App extends React.Component {
       })
   
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
-      //blogService.setToken(user.token)
+      blogService.setToken(user.token)
       this.setState({ username: '', password: '', user})
       console.log('login code reached the end')
     } catch(exception) {
@@ -72,6 +112,10 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
+  handleBlogChange = (event) => {
+    //this.setState({ newTitle: event.target.value })
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   render() {
     if (this.state.user === null) {
@@ -111,6 +155,34 @@ class App extends React.Component {
         {this.state.blogs.map(blog => 
           <Blog key={blog._id} blog={blog}/>
         )}
+
+        
+      <h2>create new</h2>
+
+      <form onSubmit={this.addBlog}>
+        Title:<input
+          type="text"
+          name="newtitle"
+          value={this.state.newTitle}
+          onChange={this.handleBlogChange}
+        />
+        <br/>
+        Author:<input
+          type="text"
+          name="newauthor"
+          value={this.state.newAuthor}
+          onChange={this.handleBlogChange}
+        />
+        <br/>
+        Url:<input
+          type="text"
+          name="newurl"
+          value={this.state.newUrl}
+          onChange={this.handleBlogChange}
+        />
+        <button type="submit">tallenna</button>
+      </form>
+
       </div>
     );
   }
