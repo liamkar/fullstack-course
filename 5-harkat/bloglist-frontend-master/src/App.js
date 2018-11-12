@@ -1,6 +1,7 @@
 import React from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -173,15 +174,15 @@ class App extends React.Component {
           <Blog key={blog._id} blog={blog}/>
         )}
         
-
-        <CreateBlog
-          title={this.state.newtitle}
-          author={this.state.newauthor}
-          url={this.state.newurl}
-          handleBlogChange={this.handleLoginFieldChange}
-          handleSubmit={this.addBlog}
-        />
-
+        <Togglable buttonLabel="create">
+            <CreateBlog
+              title={this.state.newtitle}
+              author={this.state.newauthor}
+              url={this.state.newurl}
+              handleBlogChange={this.handleLoginFieldChange}
+              handleSubmit={this.addBlog}
+            />
+        </Togglable>
 
       </div>
     );
