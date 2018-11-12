@@ -1,5 +1,6 @@
 import React from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -13,7 +14,9 @@ class App extends React.Component {
       newurl: '',
       username: '',
       password: '',
-      user: null
+      user: null,
+      message: null,
+      messagetype: null
     }
   }
 
@@ -44,6 +47,7 @@ class App extends React.Component {
 
     console.log('adding new blogObject:',blogObject)
 
+    try {
     const newBlog = await blogService.create(blogObject)
     console.log('returned newBlog:',newBlog)
 
@@ -55,18 +59,27 @@ class App extends React.Component {
       newurl: ''
     })
 
-    /*
-    blogService
-      .create(noteObject)
-      .then(newNote => {
-        this.setState({
-          notes: this.state.notes.concat(newNote),
-          newNote: ''
-        })
-      })
-      */
-  }
+    this.setState({
+      message: 'new blog' +newBlog.title + ' by ' +newBlog.author +' added',
+      messagetype: 'info'
+    })
+    
+    setTimeout(() => {
+      this.setState({ message: null, messagetype: null })
+    }, 5000)
 
+  
+} catch(exception) {
+    this.setState({
+      message: 'error in adding new blog:'+exception,
+      messagetype:'error'
+      //notes: this.state.notes.filter(n => n.id !== id)
+    })
+    setTimeout(() => {
+      this.setState({message: null, messagetype: null})
+    }, 5000)
+  }
+  }
 
   login = async (event) => {
     event.preventDefault()
@@ -81,13 +94,15 @@ class App extends React.Component {
       blogService.setToken(user.token)
       this.setState({ username: '', password: '', user})
       console.log('login code reached the end')
+
     } catch(exception) {
       this.setState({
-        error: 'käyttäjätunnus tai salasana virheellinen',
+        message: 'käyttäjätunnus tai salasana virheellinen',
+        messagetype: 'error'
       })
       console.log('error in login', exception)
       setTimeout(() => {
-        this.setState({ error: null })
+        this.setState({ message: null })
       }, 5000)
     }
   }
@@ -121,7 +136,7 @@ class App extends React.Component {
     if (this.state.user === null) {
     return (
       <div>
-
+        <Notification message={this.state.message} messagetype={this.state.messagetype}/>
         <h2>Kirjaudu</h2>
 
         <form onSubmit={this.login}>
@@ -150,6 +165,7 @@ class App extends React.Component {
       }
       return (
         <div>
+          <Notification message={this.state.message} messagetype={this.state.messagetype}/>
         <h2>blogs</h2>
         <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
