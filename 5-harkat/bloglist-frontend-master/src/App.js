@@ -1,6 +1,7 @@
 import React from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import CreateBlog from './components/CreateBlog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -171,33 +172,16 @@ class App extends React.Component {
         {this.state.blogs.map(blog => 
           <Blog key={blog._id} blog={blog}/>
         )}
-
         
-      <h2>create new</h2>
 
-      <form onSubmit={this.addBlog}>
-        Title:<input
-          type="text"
-          name="newtitle"
-          value={this.state.newTitle}
-          onChange={this.handleBlogChange}
+        <CreateBlog
+          title={this.state.newtitle}
+          author={this.state.newauthor}
+          url={this.state.newurl}
+          handleBlogChange={this.handleLoginFieldChange}
+          handleSubmit={this.addBlog}
         />
-        <br/>
-        Author:<input
-          type="text"
-          name="newauthor"
-          value={this.state.newAuthor}
-          onChange={this.handleBlogChange}
-        />
-        <br/>
-        Url:<input
-          type="text"
-          name="newurl"
-          value={this.state.newUrl}
-          onChange={this.handleBlogChange}
-        />
-        <button type="submit">tallenna</button>
-      </form>
+
 
       </div>
     );

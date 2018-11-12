@@ -1,28 +1,30 @@
 import React from 'react'
-const CreateBlog = ({blog}) => (
+
+//-Reactin suosittelemaan tyyliin tila ja tilaa käsittelevät funktiot on kaikki määritelty komponentin ulkopuolella ja välitetään komponentille propseina.
+const CreateBlog = ({handleSubmit, handleBlogChange, title, author, url}) => (
     <div>
     <h2>create new</h2>
 
-      <form onSubmit={this.addBlog}>
+      <form onSubmit={handleSubmit}>
         Title:<input
           type="text"
           name="newtitle"
-          value={this.state.newTitle}
-          onChange={this.handleBlogChange}
+          value={title}
+          onChange={handleBlogChange}
         />
         <br/>
         Author:<input
           type="text"
           name="newauthor"
-          value={this.state.newAuthor}
-          onChange={this.handleBlogChange}
+          value={author}
+          onChange={handleBlogChange}
         />
         <br/>
         Url:<input
           type="text"
           name="newurl"
-          value={this.state.newUrl}
-          onChange={this.handleBlogChange}
+          value={url}
+          onChange={handleBlogChange}
         />
         <button type="submit">tallenna</button>
       </form>
