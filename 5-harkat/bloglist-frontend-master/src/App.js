@@ -18,32 +18,45 @@ class App extends React.Component {
     blogService.getAll().then(blogs =>
       this.setState({ blogs })
     )
-  } 
 
-  /*
-  login = (event) => {
-    event.preventDefault()
-    console.log('logging in with', this.state.username, this.state.password)
-  }
-  */
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      this.setState({user})
+      //blogService.setToken(user.token)
+    }
+
+  } 
 
   login = async (event) => {
     event.preventDefault()
+    console.log('at the start of login method')
     try{
       const user = await loginService.login({
         username: this.state.username,
         password: this.state.password
       })
   
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      //blogService.setToken(user.token)
       this.setState({ username: '', password: '', user})
+      console.log('login code reached the end')
     } catch(exception) {
       this.setState({
         error: 'käyttäjätunnus tai salasana virheellinen',
       })
+      console.log('error in login', exception)
       setTimeout(() => {
         this.setState({ error: null })
       }, 5000)
     }
+  }
+
+  logout = async (event) => {
+    window.localStorage.removeItem('loggedBlogappUser');
+    //window.localStorage.clear()
+    this.setState({ username: '', password: '', user: null})
+    console.log('logout went seemingly ok.')
   }
 
 /*
@@ -94,7 +107,7 @@ class App extends React.Component {
       return (
         <div>
         <h2>blogs</h2>
-        <p>{this.state.user.name} logged in</p>
+        <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
           <Blog key={blog._id} blog={blog}/>
         )}
