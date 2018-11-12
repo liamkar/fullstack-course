@@ -172,6 +172,7 @@ class App extends React.Component {
         <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
           <Blog key={blog._id} blog={blog}/>
+          
         )}
         
         <Togglable buttonLabel="create">
