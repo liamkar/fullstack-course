@@ -139,7 +139,9 @@ blogsRouter.delete('/:id', async (request, response) => {
     console.log('user got based on decodedToken.id:',user)
     console.log('userid in blog:',blog.user.toString())
     console.log('userid in token:',user._id.toString())
-    if (!(blog.user.toString() === user._id.toString())) {
+    //if (!(blog.user.toString() === user._id.toString())) {
+    //if there is no user defined for blog (due to the legacy code additions, we will allow delete for any user.)
+    if (blog.user && !(blog.user.toString() === user._id.toString())) {
       return response.status(401).json({ error: 'user has no right to remove this blog' })
     }
 
