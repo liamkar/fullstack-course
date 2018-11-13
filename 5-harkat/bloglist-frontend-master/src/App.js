@@ -22,10 +22,38 @@ class App extends React.Component {
     }
   }
 
+  sortBlogs(blogs) {
+    
+    let blogsToBeSorted
+
+    if (blogs) {
+      blogsToBeSorted = blogs
+    }
+    else {
+      blogsToBeSorted = [].concat(this.state.blogs)
+    }
+    
+    console.log('SORT')
+    //const blogsSorted = [].concat(this.state.blogs)
+    const blogsSorted = blogsToBeSorted
+    .sort((a, b) => a.votes < b.votes)
+
+    this.setState({
+      blogs: blogsSorted
+    })
+
+  }
+
   componentDidMount() {
+    
     blogService.getAll().then(blogs =>
-      this.setState({ blogs })
+      //this.setState({ blogs }) 
+      //this.setState( blogs ) 
+      this.sortBlogs(blogs)
     )
+
+    //if sort is done after the first blogs set state, sorting will not happen.
+    //this.sortBlogs()
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -33,6 +61,8 @@ class App extends React.Component {
       this.setState({user})
       blogService.setToken(user.token)
     }
+
+    console.log('component did mount!')
 
   }
   
@@ -60,6 +90,8 @@ class App extends React.Component {
       newauthor: '',
       newurl: ''
     })
+
+    this.sortBlogs()
 
     this.setState({
       message: 'new blog' +newBlog.title + ' by ' +newBlog.author +' added',
@@ -163,6 +195,7 @@ class App extends React.Component {
       blogs: blogsCopy
     });
 
+    this.sortBlogs()
   }
 
 
