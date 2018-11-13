@@ -12,60 +12,32 @@ class Blog extends React.Component {
     this.setState({visible: !this.state.visible})
   }
 
-  likeBlog = async (event) => {
-    event.preventDefault()
-
-    console.log('id of the blog being UPDATED:',this.props.blog._id)
-    console.log('user id at likeBlog',this.props.blog.user._id)
-
-    //propsien arvoja ei voi päivittää, joten kopioidaan tiedotu ns. uuteen blogiin.
-    const blogObject = {
-      title: this.props.blog.title,
-      author: this.props.blog.author,
-      url: this.props.blog.url,
-      user: this.props.blog.user._id,
-      votes: this.props.blog.votes + 1
-    }
+  //sort of a helper function to connect child components event to parent component's event handler
+  //if this.props.blog would have been passed directly to the parent, many problems started to occur (or maybe it was due to something else?)
+  //TODO:check, what is actually the correct way to handle this parameter passing from child to parent for parent's event handler?
+  onLike = (e) => {
     
-    console.log('updating blogObject:',blogObject)
-
-    try {
-      const updatedBlog = await this.props.blogService.update(this.props.blog._id,blogObject)
-      console.log('returned updatedBlog:',updatedBlog)
-
-      //STATE OF THE PARENT MUST BE UPDATED USING HANDLERS PASSED AS PROPS TO THE CHILD.
-      this.props.likeBlog(updatedBlog.votes, updatedBlog._id)
-
-      /*
-    this.setState({
-      message: 'blog' +updatedBlog.title + ' was liked succesfully',
-      messagetype: 'info'
-    })
-    
-    setTimeout(() => {
-      this.setState({ message: null, messagetype: null })
-    }, 5000)
-  */
-
-    console.log('reached THE END OF UPDATE')
-
-} catch(exception) {
-    console.log('updating of blog failed:',exception);
-  //probably would not work as can't directly update parent's state values.
-  /*
-    this.setState({
-      message: 'error in liking a blog:'+exception,
-      messagetype:'error'
-      //notes: this.state.notes.filter(n => n.id !== id)
-    })
-    setTimeout(() => {
-      this.setState({message: null, messagetype: null})
-    }, 5000)
+    e.preventDefault()
+    console.log('on like at blog child component')
+    //var blogId = this.props.blog._id; 
+    let blogToBeLiked = this.props.blog
+    //this.props.likeBlog(blogId);
+    this.props.likeBlog(blogToBeLiked);
   }
-  */
+
+  onDelete = (e) => {
+    e.preventDefault()
+    console.log('on delete at blog child component')
+    if (window.confirm("Do you really want to delete this blog?")) { 
+      var blogId = this.props.blog._id; 
+      this.props.deleteBlog(blogId);
+      //window.open("exit.html", "Thanks for Visiting!");
+    }    
   }
-  }
+
   render() {
+
+
     const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
     const blogStyle = {
@@ -76,15 +48,20 @@ class Blog extends React.Component {
       marginBottom: 5
     }
 
+    const deleteButtonStyle = {
+      color: 'blue'
+    }
+
     return (
       <div style={blogStyle}>
         <p onClick={this.toggleVisibility}>
         {this.props.blog.title} {this.props.blog.author}
         </p>
         <p style={showWhenVisible}>{this.props.blog.url}<br/>
-            {this.props.blog.votes} <button onClick={this.likeBlog}>like</button><br/>
+            {this.props.blog.votes} <button onClick={this.onLike}>like</button><br/>
             
-            added by {this.props.blog.user.name} {this.props.blog.user.username}
+            added by {this.props.blog.user.name} {this.props.blog.user.username}<br/>
+            <button style={deleteButtonStyle} onClick={this.onDelete}>delete</button>
             </p>
       </div>
     )

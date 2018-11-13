@@ -165,7 +165,40 @@ class App extends React.Component {
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleBlogLike = (newVotesValue, blogId) => {
+  handleBlogLike = async (blog) => {
+    //handleBlogLike = async (blogId) => {
+
+
+    //propsien arvoja ei voi päivittää, joten kopioidaan tiedotu ns. uuteen blogiin
+    /*
+    const blogObject = {
+      title: this.props.blog.title,
+      author: this.props.blog.author,
+      url: this.props.blog.url,
+      user: this.props.blog.user._id,
+      votes: this.props.blog.votes + 1
+    }
+    */
+
+
+  
+   const blogObject = {
+    title: blog.title,
+    author: blog.author,
+    url: blog.url,
+    user: blog.user._id,
+    votes: blog.votes + 1
+  }
+  
+    
+  let blogId = blog._id
+
+    console.log('updating blogObject:',blogObject)
+
+    try {
+      const updatedBlog = await blogService.update(blogId,blogObject)
+      console.log('returned updatedBlog:',updatedBlog)
+
     let myIndex = 0
 
     console.log('just before iterator of all blogs')
@@ -185,7 +218,8 @@ class App extends React.Component {
     // 2. Make a shallow copy of the item you want to mutate
     let blogCopy = { ...blogsCopy[myIndex] };
     // 3. Replace the property you're intested in
-    blogCopy.votes = newVotesValue;
+    //blogCopy.votes = newVotesValue;
+    blogCopy.votes = updatedBlog.votes;
     // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
     blogsCopy[myIndex] = blogCopy;
     // 5. Set the state to our new copy
@@ -196,7 +230,57 @@ class App extends React.Component {
     });
 
     this.sortBlogs()
+  
+} catch(exception) {
+  console.log('updating of blog failed:',exception);
+//probably would not work as can't directly update parent's state values.
+/*
+  this.setState({
+    message: 'error in liking a blog:'+exception,
+    messagetype:'error'
+    //notes: this.state.notes.filter(n => n.id !== id)
+  })
+  setTimeout(() => {
+    this.setState({message: null, messagetype: null})
+  }, 5000)
+}
+*/
+}
   }
+
+  //handleBlogDelete = async (event) => {
+  handleBlogDelete = async (blogId) => {
+    //event.preventDefault()
+
+    console.log('id of the blog being DELETED:',blogId)
+    //console.log('user id at likeBlog',blog.user._id)
+
+    try {
+      const deletedBlog = await blogService.remove(blogId)
+      console.log('returned deletedBlog:',deletedBlog)
+
+      //let's get all the blogs again after the delete and update state to hide the deleted and to sort the remaining blogs.
+      const blogs = await blogService.getAll()
+        
+      this.sortBlogs(blogs)
+
+      this.setState({
+        message: 'blog deleted succesfully',
+        messagetype: 'info'
+     })
+
+     setTimeout(() => {
+      this.setState({ message: null, messagetype: null })
+    }, 5000)
+
+    console.log('reached THE END OF UPDATE')
+  
+} catch(exception) {
+    console.log('updating of blog failed:',exception);
+  }
+  }
+  
+
 
 
   render() {
@@ -236,7 +320,7 @@ class App extends React.Component {
         <h2>blogs</h2>
         <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog} blogService={blogService} likeBlog={this.handleBlogLike}/>
+          <Blog key={blog._id} blog={blog} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
           
         )}
         
