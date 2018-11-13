@@ -1,10 +1,13 @@
 import React from 'react'
 
+//const jwt = require('jsonwebtoken')
+
 class Blog extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       visible: false
+      //rightsToDelete: true
     }
   }
 
@@ -40,6 +43,14 @@ class Blog extends React.Component {
 
     const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
+    console.log(this.props.blog.user)
+    console.log(this.props.user)
+    //const decodedToken = jwt.verify(this.props.user.token, process.env.SECRET)
+    //const showWhenRightsToDelete = { display: ((!this.props.blog.user) || (this.props.blog.user._id === decodedToken.id)) ? '' : 'none' }
+    //at first, idea was to check user rights based on user ids. Problem is that we don't have direct access for the logged in user id.
+    //we could read it from the token, but that requires extra libraries to be used in here. Let's do that based on usernames - those should be unique anyway...
+    const showWhenRightsToDelete = { display: ((!this.props.blog.user) || (this.props.blog.user.username === this.props.user.username)) ? '' : 'none' }
+
     const blogStyle = {
       paddingTop: 10,
       paddingLeft: 2,
@@ -61,7 +72,7 @@ class Blog extends React.Component {
             {this.props.blog.votes} <button onClick={this.onLike}>like</button><br/>
             
             added by {this.props.blog.user.name} {this.props.blog.user.username}<br/>
-            <button style={deleteButtonStyle} onClick={this.onDelete}>delete</button>
+            <button style={Object.assign({}, showWhenRightsToDelete, deleteButtonStyle)} onClick={this.onDelete}>delete</button>
             </p>
       </div>
     )

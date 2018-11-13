@@ -320,7 +320,7 @@ class App extends React.Component {
         <h2>blogs</h2>
         <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
+          <Blog key={blog._id} blog={blog} user={this.state.user} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
           
         )}
         
