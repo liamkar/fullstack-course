@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 //const jwt = require('jsonwebtoken')
 
@@ -9,6 +10,13 @@ class Blog extends React.Component {
       visible: false
       //rightsToDelete: true
     }
+  }
+
+  static propTypes = {
+    blog: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    likeBlog: PropTypes.func.isRequired,
+    deleteBlog: PropTypes.func.isRequired,
   }
 
   toggleVisibility = () => {
