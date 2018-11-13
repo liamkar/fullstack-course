@@ -130,9 +130,41 @@ class App extends React.Component {
   }
 
   handleBlogChange = (event) => {
-    //this.setState({ newTitle: event.target.value })
     this.setState({ [event.target.name]: event.target.value })
   }
+
+  handleBlogLike = (newVotesValue, blogId) => {
+    let myIndex = 0
+
+    console.log('just before iterator of all blogs')
+    console.log(this.state.blogs)
+    for (let stateBlog of this.state.blogs) {
+      if (stateBlog._id === blogId) {
+        break
+      }
+      myIndex++
+    }
+
+    console.log('just before starting update STATE')
+
+    //sitten pitäisi stateen päivittää tätä yhtä blogia tämän yhden kentän osalta...
+    // 1. Make a shallow copy of the items
+    let blogsCopy = [...this.state.blogs];
+    // 2. Make a shallow copy of the item you want to mutate
+    let blogCopy = { ...blogsCopy[myIndex] };
+    // 3. Replace the property you're intested in
+    blogCopy.votes = newVotesValue;
+    // 4. Put it back into our array. N.B. we *are* mutating the array here, but that's why we made a copy first
+    blogsCopy[myIndex] = blogCopy;
+    // 5. Set the state to our new copy
+    //this.setState({blogs});
+
+    this.setState({
+      blogs: blogsCopy
+    });
+
+  }
+
 
   render() {
     if (this.state.user === null) {
@@ -171,7 +203,7 @@ class App extends React.Component {
         <h2>blogs</h2>
         <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
-          <Blog key={blog._id} blog={blog}/>
+          <Blog key={blog._id} blog={blog} blogService={blogService} likeBlog={this.handleBlogLike}/>
           
         )}
         
