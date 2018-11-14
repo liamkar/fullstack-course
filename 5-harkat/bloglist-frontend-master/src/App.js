@@ -318,7 +318,7 @@ class App extends React.Component {
         <div>
           <Notification message={this.state.message} messagetype={this.state.messagetype}/>
         <h2>blogs</h2>
-        <p>{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
+        <p className="blogBlock">{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
           <Blog key={blog._id} blog={blog} user={this.state.user} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
           
