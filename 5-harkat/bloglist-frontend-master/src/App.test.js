@@ -7,14 +7,41 @@ import blogService from './services/blogs'
 
 describe('<App />', () => {
   let app
-  beforeAll(() => {
-    app = mount(<App />)
+
+ describe('when user is not logged', () => {
+    beforeEach(() => {
+        app = mount(<App />)
+    })
+
+    it('only login form is rendered', () => {
+      app.update()
+      const blogComponents = app.find(Blog)
+      expect(blogComponents.length).toEqual(0)
+    })
   })
 
- it('does not render a single blog if not logged in', () => {
-    app.update()
-    const blogComponents = app.find(Blog)
-    expect(blogComponents.length).toEqual(0)
+
+  describe('when user is logged', () => {
+    beforeEach(() => {
+        const user = {
+            username: 'tester',
+            token: '1231231214',
+            name: 'Teuvo Testaaja'
+          }
+          
+          localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+
+          app = mount(<App />)
+    
+          console.log(app.html())
+
+    })
+
+    it('all notes are rendered', () => {
+      app.update()
+      const blogComponents = app.find(Blog)
+      expect(blogComponents.length).toEqual(blogService.blogs.length)
+    })
   })
 
 })

@@ -43,4 +43,8 @@ const getAll = () => {
   return Promise.resolve(blogs)
 }
 
-export default { getAll, blogs } 
+const setToken = () => {
+    console.log('not really doing anything here at setToken but just hoping to get away with a running test with this dummy implementation')
+}
+
+export default { getAll, blogs, setToken } 

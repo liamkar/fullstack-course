@@ -56,10 +56,13 @@ class App extends React.Component {
     //this.sortBlogs()
 
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    console.log('loggedUserJSON:',loggedUserJSON)
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       this.setState({user})
+      console.log('user set to APP state:',user)
       blogService.setToken(user.token)
+      console.log('reached end of user logging:')
     }
 
     console.log('component did mount!')
