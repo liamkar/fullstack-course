@@ -1,8 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {createStore} from 'redux'
+import counterReducer from './reducer'
 
-
+/*
   const counterReducer = (state = {good: 0, ok: 0, bad:0}, action) => {
     switch (action.type) {
       case 'GOOD':
@@ -18,6 +19,7 @@ import {createStore} from 'redux'
     }
     return state
   }
+*/
 
 const store = createStore(counterReducer)
 
