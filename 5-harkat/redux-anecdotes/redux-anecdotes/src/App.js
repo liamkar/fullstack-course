@@ -1,6 +1,15 @@
 import React from 'react';
 
 const actionFor = {
+  anecdoteCreation(content) {
+    return {
+      type: 'NEW_ANECDOTE',
+      data: {
+        content,
+        votes: 0,
+      }
+    }
+  },
   
   vote(id) {
     return {
@@ -12,6 +21,14 @@ const actionFor = {
 
 class App extends React.Component {
 
+  addAnecdote = (event) => {
+    event.preventDefault()
+    this.props.store.dispatch(
+      actionFor.anecdoteCreation(event.target.anecdote.value)
+    )
+    event.target.anecdote.value = ''
+  }
+  
   vote = (id) => () => {
     this.props.store.dispatch(
       actionFor.vote(id)
@@ -35,9 +52,9 @@ class App extends React.Component {
           </div>
         )}
         <h2>create new</h2>
-        <form>
-          <div><input /></div>
-          <button>create</button> 
+        <form onSubmit={this.addAnecdote}>
+          <div><input name="anecdote"/></div>
+          <button type="submit">create</button> 
         </form>
       </div>
     )
