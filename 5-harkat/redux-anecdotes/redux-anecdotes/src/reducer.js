@@ -23,7 +23,6 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ',state)
   console.log('action', action)
 
-
   switch(action.type) {
     case 'NEW_NOTE':
       return state.concat(action.data)
@@ -31,7 +30,13 @@ const reducer = (state = initialState, action) => {
       const id = action.data.id
       const anecdoteToChange = state.find(n => n.id === id)
       const changedAnecdote = { ...anecdoteToChange, votes: anecdoteToChange.votes+1 }
-      return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote )
+      //return state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote )
+
+      const updatedAnecdoteList = state.map(anecdote => anecdote.id !== id ? anecdote : changedAnecdote )
+
+      const sortedAnecdoteList = updatedAnecdoteList.sort((a,b) => (a.votes > b.votes) ? -1 : ((b.votes > a.votes) ? 1 : 0))
+      return sortedAnecdoteList
+
     default:
       return state
   }
