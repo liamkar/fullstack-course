@@ -7,6 +7,16 @@ import { Provider } from 'react-redux'
 import anecdoteReducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationReducer'
 import filterReducer from './reducers/filterReducer'
+//import anecdoteReducer, { anecdoteInitialization} from './reducers/anecdoteReducer'
+//import { anecdoteInitialization } from './reducers/anecdoteReducer'
+//import anecdoteService from './services/anecdotes.'
+
+/*
+anecdoteService.getAll().then(anecdotes =>
+  store.dispatch(anecdoteInitialization(anecdotes))
+)
+*/
+
 
 const reducer = combineReducers({
   anecdotes: anecdoteReducer,

@@ -1,3 +1,4 @@
+/*
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -6,6 +7,7 @@ const anecdotesAtStart = [
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
 ]
+*/
 
 const getId = () => (100000*Math.random()).toFixed(0)
 
@@ -17,9 +19,11 @@ const asObject = (anecdote) => {
   }
 }
 
-const initialState = anecdotesAtStart.map(asObject)
+//const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (store = initialState, action) => {
+//TODO: it's preferred to use switch case here:
+//const reducer = (store = initialState, action) => {
+  const reducer = (store = [], action) => {
   if (action.type==='VOTE') {
     const old = store.filter(a => a.id !==action.data.id)
     const voted = store.find(a => a.id === action.data.id)
@@ -29,6 +33,10 @@ const reducer = (store = initialState, action) => {
   if (action.type === 'CREATE') {
 
     return [...store, { content: action.data.content, id: getId(), votes:0 }]
+  }
+  if (action.type === 'INIT_ANECDOTES') {
+    console.log('at INIT_ANECDOTES:',action.data)
+    return action.data
   }
 
   return store
@@ -52,7 +60,12 @@ export const anecdoteVote = (id) => {
   }
 }
 
-
+export const anecdoteInitialization = (data) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data
+  }
+}
 
 
 
