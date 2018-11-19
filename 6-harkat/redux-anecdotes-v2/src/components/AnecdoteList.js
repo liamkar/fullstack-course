@@ -14,25 +14,28 @@ class AnecdoteList extends React.Component {
     setTimeout(() => {
       this.props.store.dispatch(notificationRemove())
     }, 5000)
-
-
-    /*
-    this.props.store.dispatch({ 
-      type: 'CREATE', 
-      content 
-    })
-    */
-  
-    //e.target.anecdote.value = ''
   }
 
 
   render() {
-    const anecdotes = this.props.store.getState().anecdotes
+    const anecdotesToShow = () => {      
+      const { anecdotes, filter } = this.props.store.getState()
+      if (!filter) {
+        return anecdotes
+      }
+      
+      console.log('just before filtering the anecdotes')
+      console.log('filter is',filter)
+      const result = anecdotes.filter(anecdote => anecdote.content.includes(filter) )
+      
+      return result
+    }
+
+
     return (
       <div>
         <h2>Anecdotes</h2>
-        {anecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
+        {anecdotesToShow().sort((a, b) => b.votes - a.votes).map(anecdote =>
           <div key={anecdote.id}>
             <div name="name">
               {anecdote.content}
