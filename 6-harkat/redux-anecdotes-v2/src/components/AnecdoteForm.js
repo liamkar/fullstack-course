@@ -5,15 +5,22 @@ import { notificationSetting } from './../reducers/notificationReducer'
 import { notificationRemove } from './../reducers/notificationReducer'
 
 import { connect } from 'react-redux'
+import anecdoteService from '../services/anecdotes'
 
 class AnecdoteForm extends React.Component {
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault()
     const content = e.target.anecdote.value
     //this.props.store.dispatch(anecdoteCreation(content))
-    this.props.anecdoteCreation(content)
+    //this.props.anecdoteCreation(content)
+    e.target.anecdote.value = ''
+    const newAnecdote = await anecdoteService.createNew(content)
+    this.props.anecdoteCreation(newAnecdote)
+
     //this.props.store.dispatch(notificationSetting('New anecdote,'+ content +',added succesfully!'))
     this.props.notificationSetting('New anecdote,'+ content +',added succesfully!')
+
+    
 
     setTimeout(() => {
       //this.props.store.dispatch(notificationRemove())
@@ -28,7 +35,7 @@ class AnecdoteForm extends React.Component {
     })
     */
   
-    e.target.anecdote.value = ''
+    
   }
    render() {
      return (
@@ -61,4 +68,9 @@ const mapDispatchToProps = {
 
 const ConnectedAnecdoteForm = connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)
 
-export default ConnectedAnecdoteForm
+//export default ConnectedAnecdoteForm
+
+export default connect(
+  null,
+  {anecdoteCreation}
+)(ConnectedAnecdoteForm)

@@ -32,7 +32,8 @@ const asObject = (anecdote) => {
   }
   if (action.type === 'CREATE') {
 
-    return [...store, { content: action.data.content, id: getId(), votes:0 }]
+    //return [...store, { content: action.data.content, id: getId(), votes:0 }]
+    return [...store, action.data]
   }
   if (action.type === 'INIT_ANECDOTES') {
     console.log('at INIT_ANECDOTES:',action.data)
@@ -43,12 +44,15 @@ const asObject = (anecdote) => {
 }
 
 
-export const anecdoteCreation = (content) => {
+export const anecdoteCreation = (data) => {
   return {
     type: 'CREATE',
+    data
+    /*
     data: {
       content
     }
+    */
   }
 }
 
