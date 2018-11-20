@@ -22,7 +22,8 @@ class AnecdoteForm extends React.Component {
     this.props.anecdoteCreation(content)
 
 
-    
+    /*//Notifikaatioiden tekeminen on nyt hieman ikävää, sillä se edellyttää kahden actionin tekemistä ja setTimeout-funktion käyttöä:
+
     //this.props.store.dispatch(notificationSetting('New anecdote,'+ content +',added succesfully!'))
     this.props.notificationSetting('New anecdote,'+ content +',added succesfully!')
 
@@ -30,7 +31,10 @@ class AnecdoteForm extends React.Component {
       //this.props.store.dispatch(notificationRemove())
       this.props.notificationRemove()
     }, 5000)
-    
+    */
+   
+    //Tee asynkrooninen action creator, joka mahdollistaa notifikaation antamisen seuraavasti:
+   this.props.notificationSetting('New anecdote,'+ content +',added succesfully!', 10)
 
     
 
