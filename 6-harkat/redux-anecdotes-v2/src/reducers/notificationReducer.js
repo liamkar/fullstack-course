@@ -9,13 +9,48 @@ const notificationReducer = (state = 'default notification message', action) => 
     }
   }
 
+/*
+  export const anecdoteVote = (anecdote) => {
+    return async (dispatch) => {
+      anecdote.votes = anecdote.votes+1
+      const updatedAnecdote = await anecdoteService.update(anecdote.id,anecdote)
+  
+      //const newAnecdote = await anecdoteService.createNew(content)
+      dispatch({
+        type: 'VOTE',
+        anecdote: updatedAnecdote
+      })
+    }
+  }
+*/
 
+/*
 export const notificationSetting = (message) => {
+
     return {
       type: 'SET_NOTIFICATION',
       message
     }
   }
+*/
+
+export const notificationSetting = (message, seconds) => {
+    return async (dispatch) => {    
+        setTimeout(() => {
+            //this.props.store.dispatch(notificationRemove())
+            //this.props.notificationRemove()
+            console.log('timeout happened in notificationSetting')
+            dispatch(notificationRemove())
+        }, seconds*100)
+
+        //const newAnecdote = await anecdoteService.createNew(content)
+        dispatch({
+          type: 'SET_NOTIFICATION',
+          message
+        })
+      }
+  }
+
 
 export const notificationRemove = () => {
     return {

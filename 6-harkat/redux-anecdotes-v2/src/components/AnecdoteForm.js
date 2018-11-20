@@ -22,16 +22,17 @@ class AnecdoteForm extends React.Component {
     this.props.anecdoteCreation(content)
 
 
+    
     //this.props.store.dispatch(notificationSetting('New anecdote,'+ content +',added succesfully!'))
     this.props.notificationSetting('New anecdote,'+ content +',added succesfully!')
-
-    
 
     setTimeout(() => {
       //this.props.store.dispatch(notificationRemove())
       this.props.notificationRemove()
     }, 5000)
+    
 
+    
 
     /*
     this.props.store.dispatch({ 
