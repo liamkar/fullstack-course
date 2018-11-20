@@ -6,7 +6,7 @@ import { notificationRemove } from './../reducers/notificationReducer'
 
 import { connect } from 'react-redux'
 
-import anecdoteService from '../services/anecdotes'
+//import anecdoteService from '../services/anecdotes'
 
 class AnecdoteList extends React.Component {
 
@@ -15,11 +15,15 @@ class AnecdoteList extends React.Component {
     //this.props.anecdoteVote(anecdote.id)
 
     //anecdoteService.update()
+    /*
     anecdote.votes = anecdote.votes+1
     const updatedAnecdote = await anecdoteService.update(anecdote.id,anecdote)
     this.props.anecdoteVote(updatedAnecdote)
+    */
+   
+    this.props.anecdoteVote(anecdote)
 
-    console.log('updatedAnecdote',updatedAnecdote)
+    //console.log('updatedAnecdote',updatedAnecdote)
 
     //this.props.store.dispatch(notificationSetting('One vote added for anecdote '+ e.content +'!'))
     this.props.notificationSetting('One vote added for anecdote '+ anecdote.content +'!')

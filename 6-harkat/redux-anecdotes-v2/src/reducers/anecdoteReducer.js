@@ -58,17 +58,25 @@ const asObject = (anecdote) => {
 }
 
 
+/*
 export const anecdoteCreation = (data) => {
   return {
     type: 'CREATE',
     data
-    /*
-    data: {
-      content
-    }
-    */
   }
 }
+*/
+
+export const anecdoteCreation = (content) => {
+  return async (dispatch) => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'CREATE',
+      data: newAnecdote
+    })
+  }
+}
+
 
 /*
 export const anecdoteVote = (id) => {
@@ -79,6 +87,8 @@ export const anecdoteVote = (id) => {
   }
 }
 */
+
+/*
 export const anecdoteVote = (anecdote) => {
   return {
     type: 'VOTE',
@@ -86,6 +96,21 @@ export const anecdoteVote = (anecdote) => {
     //id
   }
 }
+*/
+
+export const anecdoteVote = (anecdote) => {
+  return async (dispatch) => {
+    anecdote.votes = anecdote.votes+1
+    const updatedAnecdote = await anecdoteService.update(anecdote.id,anecdote)
+
+    //const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'VOTE',
+      anecdote: updatedAnecdote
+    })
+  }
+}
+
 
 /*
 export const anecdoteInitialization = (data) => {
