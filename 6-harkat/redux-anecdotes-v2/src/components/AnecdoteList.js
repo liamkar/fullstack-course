@@ -6,13 +6,23 @@ import { notificationRemove } from './../reducers/notificationReducer'
 
 import { connect } from 'react-redux'
 
+import anecdoteService from '../services/anecdotes'
+
 class AnecdoteList extends React.Component {
 
-  handleSubmit = (e) => {
+  handleSubmit = async (anecdote) => {
     //this.props.store.dispatch(anecdoteVote(e.id))
-    this.props.anecdoteVote(e.id)
+    //this.props.anecdoteVote(anecdote.id)
+
+    //anecdoteService.update()
+    anecdote.votes = anecdote.votes+1
+    const updatedAnecdote = await anecdoteService.update(anecdote.id,anecdote)
+    this.props.anecdoteVote(updatedAnecdote)
+
+    console.log('updatedAnecdote',updatedAnecdote)
+
     //this.props.store.dispatch(notificationSetting('One vote added for anecdote '+ e.content +'!'))
-    this.props.notificationSetting('One vote added for anecdote '+ e.content +'!')
+    this.props.notificationSetting('One vote added for anecdote '+ anecdote.content +'!')
 
     setTimeout(() => {
       //this.props.store.dispatch(notificationRemove())
@@ -39,9 +49,21 @@ class AnecdoteList extends React.Component {
     }
     */
 
+    /*
+    //if (this.props.anecdotesToShow === undefined) {
+      if (this.props.visibleAnecdotes === undefined) {
+      console.log('anecdotesToShow',this.props.anecdotesToShow)
+      return (<div>
+      <h2>Anecdotes</h2>
+      </div>)
+    }
+    else {
+
+      */
     return (
       <div>
         <h2>Anecdotes</h2>
+        
         {this.props.visibleAnecdotes.sort((a, b) => b.votes - a.votes).map(anecdote =>
           <div key={anecdote.id}>
             <div name="name">
@@ -61,6 +83,7 @@ class AnecdoteList extends React.Component {
         )}
       </div>
     )
+        //    }
   }
 }
 
@@ -69,6 +92,8 @@ class AnecdoteList extends React.Component {
 const anecdotesToShow = (anecdotes, filter) => {      
   //const { anecdotes, filter } = this.props.store.getState()
   //const { anecdotes, filter } = this.props
+  console.log('anecdotes at the start of anecdotesToShow:',anecdotes)
+  console.log('anecdotesToShow filter is ',filter)
   if (!filter) {
     return anecdotes
   }
@@ -76,7 +101,8 @@ const anecdotesToShow = (anecdotes, filter) => {
   console.log('just before filtering the anecdotes')
   console.log('filter is',filter)
   const result = anecdotes.filter(anecdote => anecdote.content.includes(filter) )
-  
+
+  console.log('anecdotesToShow return results',result)
   return result
 }
 

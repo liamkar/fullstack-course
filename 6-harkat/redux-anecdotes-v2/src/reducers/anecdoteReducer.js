@@ -9,7 +9,9 @@ const anecdotesAtStart = [
 ]
 */
 
+/*
 const getId = () => (100000*Math.random()).toFixed(0)
+
 
 const asObject = (anecdote) => {
   return {
@@ -18,6 +20,7 @@ const asObject = (anecdote) => {
     votes: 0
   }
 }
+*/
 
 //const initialState = anecdotesAtStart.map(asObject)
 
@@ -25,10 +28,20 @@ const asObject = (anecdote) => {
 //const reducer = (store = initialState, action) => {
   const reducer = (store = [], action) => {
   if (action.type==='VOTE') {
+
+    //TODO:talleteaankin tämä kantaan ensin - päivitetään sen yhteydessä voten arvoa - ei siis enää täällä
+    //-->täällä päivitetään ainoastaan storea jatkossa:
+    /*
     const old = store.filter(a => a.id !==action.data.id)
     const voted = store.find(a => a.id === action.data.id)
-
     return [...old, { ...voted, votes: voted.votes+1} ]
+    */
+
+   console.log('action at VOTE reducer',action)
+   const listOfNotUpdatedAnecdotes = store.filter(a => a.id !==action.anecdote.id)
+   console.log('listOfNotUpdatedAnecdotes',listOfNotUpdatedAnecdotes)
+   return [...listOfNotUpdatedAnecdotes, action.anecdote ]
+
   }
   if (action.type === 'CREATE') {
 
@@ -56,10 +69,19 @@ export const anecdoteCreation = (data) => {
   }
 }
 
+/*
 export const anecdoteVote = (id) => {
   return {
     type: 'VOTE',
     data: { id }
+    //id
+  }
+}
+*/
+export const anecdoteVote = (anecdote) => {
+  return {
+    type: 'VOTE',
+    anecdote
     //id
   }
 }
