@@ -1,3 +1,4 @@
+import anecdoteService from '../services/anecdotes'
 /*
 const anecdotesAtStart = [
   'If it hurts, do it more often',
@@ -86,10 +87,23 @@ export const anecdoteVote = (anecdote) => {
   }
 }
 
+/*
 export const anecdoteInitialization = (data) => {
   return {
     type: 'INIT_ANECDOTES',
     data
+  }
+}
+*/
+
+//redux-thunkin ansiosta on mahdollista määritellä action creatoreja siten, että ne palauttavat funktion, jonka parametrina on redux-storen dispatch-metodi. Tämän ansiosta on mahdollista tehdä asynkronisia action creatoreja, jotka ensin odottavat jonkin toimenpiteen valmistumista ja vasta sen jälkeen dispatchaavat varsinaisen actionin.
+export const anecdoteInitialization = () => {
+  return async (dispatch) => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes
+    })
   }
 }
 
