@@ -1,12 +1,19 @@
 import React from 'react'
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
 
+const menuStyle = {
+  backgroundColor: 'lightblue',
+}
+
+const menuNormalStyle = {
+  backgroundColor: 'white'
+}
 
 const Menu = () => (
-  <div>    
-     <Link to="/">anecdotes</Link> &nbsp;
-     <Link to="/create">create new</Link> &nbsp;
-     <Link to="/about">about</Link>
+  <div style={menuStyle}>    
+     <NavLink activeStyle={{backgroundColor:'grey'}} exact to="/">anecdotes</NavLink> &nbsp;
+     <NavLink activeStyle={{backgroundColor:'grey'}} exact to="/create">create new</NavLink> &nbsp;
+     <NavLink activeStyle={{backgroundColor:'grey'}} exact to="/about">about</NavLink>
   </div>
 )
 
