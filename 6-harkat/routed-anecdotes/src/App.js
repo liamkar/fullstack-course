@@ -30,10 +30,19 @@ const Anecdote = ({anecdote}) => {
   </div>
 )}
 
+
+const notificationStyle = {
+  borderRadius: 25,
+  borderColor: 'green',
+  borderWidth: 4,
+  borderStyle: 'solid'
+}
+
+
 const Notification = ({message}) => {
   if (message) {
     return(
-      <div>
+      <div style={notificationStyle}>
         <p>{message}</p>
       </div>
     )
