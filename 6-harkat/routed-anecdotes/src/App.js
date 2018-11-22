@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
 
 import { Table } from 'react-bootstrap'
+import { Grid,Row,Col } from 'react-bootstrap'
 
 //material ui imports:
 /*
@@ -18,6 +19,8 @@ const menuStyle = {
 const menuNormalStyle = {
   backgroundColor: 'white'
 }
+
+
 
 const Menu = () => (
   <div style={menuStyle}>    
@@ -110,6 +113,34 @@ const Notification = ({message}) => {
   }
 }
 
+
+
+const About = () => (
+  <div>
+    <h2>About anecdote app</h2>
+
+    <Grid>
+      <Row className="show-grid">
+    <Col xs={12} md={8}>
+    <p>According to Wikipedia:</p>
+    
+    <em>An anecdote is a brief, revealing account of an individual person or an incident. 
+      Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself, 
+      such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative. 
+      An anecdote is "a story with a point."</em>
+
+    <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+    </Col>
+    
+    <Col xs={6} md={4}>
+    <img src="http://developeronfire.com/assets/images/UncleBobMartin.jpg"></img>
+    </Col>
+    </Row>
+    </Grid>
+  </div>
+)
+
+/*
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
@@ -121,8 +152,10 @@ const About = () => (
       An anecdote is "a story with a point."</em>
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
+    <img src="http://developeronfire.com/assets/images/UncleBobMartin.jpg"></img>
   </div>
 )
+*/
 
 const Footer = () => (
   <div>
