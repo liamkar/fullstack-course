@@ -1,12 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+
+import { Table } from 'react-bootstrap'
+
+//material ui imports:
+/*
 import { List, ListItem, ListItemText, Button } from '@material-ui/core'
-
-
-
 if (!List) console.error("List's import is wrong");
 if (!ListItem) console.error("ListItem's import is wrong");
 if (!ListItemText) console.error("ListItemText's import is wrong");
+*/
 
 const menuStyle = {
   backgroundColor: 'lightblue',
@@ -40,7 +43,7 @@ const AnecdoteList = ({ anecdotes }) => (
 )
 */
 
-
+/*
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
@@ -49,6 +52,25 @@ const AnecdoteList = ({ anecdotes }) => (
         <Link to={`/anecdotes/${anecdote.id}`}>
           {anecdote.content}</Link></li>)}
     </ul>  
+  </div>
+)
+*/
+
+const AnecdoteList = ({anecdotes}) => (
+  <div>
+    <h2>Anecdotes</h2>
+    <Table striped>
+      <tbody>
+        {anecdotes.map(anecdote=>
+          <tr key={anecdotes.id}>
+            <td>
+              <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+            </td>
+            
+          </tr>
+        )}
+      </tbody>
+    </Table>
   </div>
 )
 
@@ -216,7 +238,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <h1>Software anecdotes</h1>
         <Router>
         <div>
