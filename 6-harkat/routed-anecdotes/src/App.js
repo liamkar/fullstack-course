@@ -1,5 +1,12 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom'
+import { List, ListItem, ListItemText, Button } from '@material-ui/core'
+
+
+
+if (!List) console.error("List's import is wrong");
+if (!ListItem) console.error("ListItem's import is wrong");
+if (!ListItemText) console.error("ListItemText's import is wrong");
 
 const menuStyle = {
   backgroundColor: 'lightblue',
@@ -17,6 +24,23 @@ const Menu = () => (
   </div>
 )
 
+//could not get material ui list working in rational time, so commented out and rollback to safe choice:Bootstrap.
+/*
+const AnecdoteList = ({ anecdotes }) => (
+  <div>
+    <h2>Anecdotes</h2>
+   <List>
+      {anecdotes.map(anecdote => 
+        <ListItem key={anecdote.id} component={Link} to={`/anecdotes/${anecdote.id}`}>
+          <ListItemText primary={anecdote.content}/>
+        </ListItem>
+        )}
+  </List>
+  </div>
+)
+*/
+
+
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
@@ -27,6 +51,8 @@ const AnecdoteList = ({ anecdotes }) => (
     </ul>  
   </div>
 )
+
+
 
 const Anecdote = ({anecdote}) => {
   return(
@@ -202,6 +228,7 @@ class App extends React.Component {
           <Route exact path="/anecdotes/:id" render={({match}) => <Anecdote anecdote={this.anecdoteById(match.params.id)} />}/>
           </div>
         </Router>
+
         <Footer />
       </div>
     );
