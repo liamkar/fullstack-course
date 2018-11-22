@@ -1,4 +1,61 @@
 import React from 'react'
+//import NoteForm from './components/NoteForm.js'
+//import NoteList from './components/NoteList.js'
+//import VisibilityFilter from './components/VisibilityFilter'
+import { connect } from 'react-redux'
+import { initializeBlogs } from './reducers/blogReducer'
+//import Blog from './components/Blog'
+import BlogList from './components/BlogList'
+import Notification from './components/Notification'
+
+/*
+<h2>blogs</h2>
+{this.state.blogs.map(blog => 
+      <Blog key={blog._id} blog={blog} user={this.state.user} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
+      
+    )}
+
+*/
+
+class App extends React.Component {
+  componentWillMount() {
+    this.props.initializeBlogs()
+  }
+
+  //TODO:lisää render metodiin tieto userista. ks. vanha koodi alla.
+  render() {
+    return (
+      <div>
+      <Notification />
+      <BlogList />
+      </div>
+
+      /*
+      <div>
+        <NoteForm />
+        <VisibilityFilter />
+        <NoteList />
+      </div>
+      */
+    )
+  }
+}
+
+export default connect(
+  null,
+  { initializeBlogs }
+)(App)
+
+
+
+
+
+
+
+
+
+/*
+import React from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -151,15 +208,6 @@ class App extends React.Component {
     console.log('logout went seemingly ok.')
   }
 
-/*
-  handlePasswordChange = (event) => {
-    this.setState({ password: event.target.value })
-  }
-
-  handleUsernameChange = (event) => {
-    this.setState({ username: event.target.value })
-  }
-*/
   handleLoginFieldChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
@@ -170,20 +218,6 @@ class App extends React.Component {
 
   handleBlogLike = async (blog) => {
     //handleBlogLike = async (blogId) => {
-
-
-    //propsien arvoja ei voi päivittää, joten kopioidaan tiedotu ns. uuteen blogiin
-    /*
-    const blogObject = {
-      title: this.props.blog.title,
-      author: this.props.blog.author,
-      url: this.props.blog.url,
-      user: this.props.blog.user._id,
-      votes: this.props.blog.votes + 1
-    }
-    */
-
-
   
    const blogObject = {
     title: blog.title,
@@ -236,18 +270,7 @@ class App extends React.Component {
   
 } catch(exception) {
   console.log('updating of blog failed:',exception);
-//probably would not work as can't directly update parent's state values.
-/*
-  this.setState({
-    message: 'error in liking a blog:'+exception,
-    messagetype:'error'
-    //notes: this.state.notes.filter(n => n.id !== id)
-  })
-  setTimeout(() => {
-    this.setState({message: null, messagetype: null})
-  }, 5000)
-}
-*/
+
 }
   }
 
@@ -284,10 +307,11 @@ class App extends React.Component {
   }
   
   render() {
+    
     if (this.state.user === null) {
     return (
       <div>
-        <Notification message={this.state.message} messagetype={this.state.messagetype}/>
+        <Notification />
         <h2>Kirjaudu</h2>
 
         <form onSubmit={this.login}>
@@ -316,14 +340,14 @@ class App extends React.Component {
       }
       return (
         <div>
-          <Notification message={this.state.message} messagetype={this.state.messagetype}/>
+          <Notification />
         <h2>blogs</h2>
         <p className="blogBlock">{this.state.user.name} logged in <button onClick={this.logout}>logout</button></p>
         {this.state.blogs.map(blog => 
           <Blog key={blog._id} blog={blog} user={this.state.user} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
           
         )}
-        
+      
         <Togglable buttonLabel="create">
             <CreateBlog
               title={this.state.newtitle}
@@ -340,3 +364,4 @@ class App extends React.Component {
 }
 
 export default App;
+*/

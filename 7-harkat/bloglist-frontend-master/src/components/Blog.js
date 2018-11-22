@@ -1,7 +1,45 @@
 import React from 'react'
+
+const blogStyle = {
+  paddingTop: 10,
+  paddingLeft: 2,
+  border: 'solid',
+  borderWidth: 1,
+  marginBottom: 5
+}
+
+//const showWhenVisible = { display: this.state.visible ? '' : 'none' }
+
+/*
+<li onClick={handleClick}>
+{blog.content} <strong>{note.important ? 'tärkeä' : ''}</strong>
+</li>
+*/
+
+//TODO:add votes section . see old code below.
+//const Blog = ({ blog, toggleVisibility }) => {
+  const Blog = ({ blog}) => {
+  return (
+
+<div style={blogStyle}>
+<p className="content">
+{blog.title} {blog.author}
+</p>
+</div>
+
+  )
+}
+
+export default Blog
+
+
+
+/*
+import React from 'react'
 import PropTypes from 'prop-types'
 
 //const jwt = require('jsonwebtoken')
+
 
 class Blog extends React.Component {
   constructor(props) {
@@ -88,13 +126,12 @@ class Blog extends React.Component {
 }
 
 //original version of the BLOG.
-/*
-const Blog = ({blog}) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>  
-)
-*/
+//const Blog = ({blog}) => (
+  //<div>
+    //{blog.title} {blog.author}
+  //</div>  
+//)
 
 
 export default Blog
+*/
