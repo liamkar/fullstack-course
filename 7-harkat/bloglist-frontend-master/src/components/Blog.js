@@ -69,6 +69,8 @@ class Blog extends React.Component {
     }
   }
 
+
+
   toggleVisibility = () => {
     this.setState({visible: !this.state.visible})
   }
@@ -109,10 +111,17 @@ class Blog extends React.Component {
     }    
   }
 */
+
+
 render() {
+
+//console.log('handleClick:',handleClick)
+
+
 const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
-const { blog, like, deletable, remove } = this.props
+const { blog, handleClick, deletable, remove } = this.props
+
 
 return (
 <div style={blogStyle}>
@@ -120,7 +129,7 @@ return (
 {blog.title} {blog.author}
 </p>
 <p className="votes" style={showWhenVisible}>{blog.url}<br/>
-            {blog.votes} <button>like</button><br/>
+            {blog.votes} <button onClick={handleClick}>like</button><br/>
             
             added by {blog.user.name} {blog.user.username}<br/>
             <button >delete</button>
@@ -130,6 +139,26 @@ return (
 </div>
 )
 }
+
+
+//non render-version
+/*
+return (
+  <div style={blogStyle}>
+  <p className="content" onClick={this.toggleVisibility}>
+  {this.props.blog.title} {this.props.blog.author}
+  </p>
+  <p className="votes" style={showWhenVisible}>{blog.url}<br/>
+              {this.props.blog.votes} <button onClick={this.props.handleClick}>like</button><br/>
+              
+              added by {this.props.blog.user.name} {this.props.blog.user.username}<br/>
+              <button >delete</button>
+              </p>
+  
+  
+  </div>
+  )
+*/
 /*
   render() {
 
