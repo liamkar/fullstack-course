@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 //import { toggleVisibility } from './../reducers/blogReducer'
 import { like } from './../reducers/blogReducer'
+import { deleteBlog } from './../reducers/blogReducer'
 import Blog from './Blog'
 
 //TODO: add toggleImportance eli tässä ohjelmassa TOggleVisibility myöhemmin.
@@ -12,8 +13,9 @@ const BlogList = (props) => (
       <Blog
         key={blog._id}
         blog={blog}
-        handleLikeClick={() => like(blog)}
+        //handleLikeClick={() => like(blog)}
         handleClick={() => props.like(blog)}
+        handleDelete={() => props.deleteBlog(blog._id)}
       />
     )}
   </div>
@@ -45,5 +47,5 @@ export default connect(
 
 export default connect(
     mapStateToProps,
-    { like }
+    { like, deleteBlog }
   )(BlogList)

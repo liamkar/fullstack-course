@@ -69,12 +69,20 @@ class Blog extends React.Component {
     }
   }
 
-
-
   toggleVisibility = () => {
     this.setState({visible: !this.state.visible})
   }
 
+  onDelete = (e) => {
+    e.preventDefault()
+    console.log('on delete at blog child component')
+    if (window.confirm("Do you really want to delete this blog?")) { 
+      var blogId = this.props.blog._id
+      console.log(this.props.handleDelete)
+      this.props.handleDelete(this.props.blog._id)
+      //window.open("exit.html", "Thanks for Visiting!");
+    }
+  }
 
   /*
   static propTypes = {
@@ -120,7 +128,7 @@ render() {
 
 const showWhenVisible = { display: this.state.visible ? '' : 'none' }
 
-const { blog, handleClick, deletable, remove } = this.props
+const { blog, handleClick, handleDelete, remove } = this.props
 
 
 return (
@@ -132,7 +140,7 @@ return (
             {blog.votes} <button onClick={handleClick}>like</button><br/>
             
             added by {blog.user.name} {blog.user.username}<br/>
-            <button >delete</button>
+            <button onClick={this.onDelete}>delete</button>
             </p>
 
 

@@ -13,25 +13,33 @@ const blogReducer = (state = [], action) => {
     return state.map(note => note.id !== id ? note : changedNote )
   }
   */
+  case 'DELETE_BLOG':
+  //  const noteToChange = state.find(n => n.id === id)
+
+
+/*
+    myArray = myArray.filter(function( obj ) {
+        return obj.field !== 'money';
+    });
+*/
+
+/*
+    myArray = myArray.filter(function( obj ) {
+        return obj.field !== 'money';
+    });
+*/
+
+    return state.filter(blog => blog._id !== action.id)
+
+
+    //const changedNote = { ...noteToChange, important: !noteToChange.important }
+    //return state.map(note => note.id !== id ? note : changedNote )
   case 'UPDATE_BLOG':
     console.log('UPDATE_BLOG:',action.data)
     const updated = action.data
     const id = updated._id
-    /*
-    const noteToChange = state.find(n => n.id === id)
-    const changedNote = { ...noteToChange, important: !noteToChange.important }
-  return state.map(note => note.id !== id ? note : changedNote )
-
-  //const liked = this.state.blogs.find(b=>b._id===id)
-    const updated = { ...liked, likes: liked.likes + 1 }
-    await blogService.update(id, updated)
-    this.notify(`you liked '${updated.title}' by ${updated.author}`)
-    this.setState({
-      blogs: this.state.blogs.map(b => b._id === id ? updated : b)
-    })
-    */
-   console.log('UPDATE_BLOG:new votes value:',updated.votes)
-   console.log('state blogs before update:',state)
+    console.log('UPDATE_BLOG:new votes value:',updated.votes)
+    console.log('state blogs before update:',state)
     const updatedBlogs = state.map(b => b._id === id ? updated : b)
     console.log(updatedBlogs)
     return updatedBlogs
@@ -51,6 +59,48 @@ export const initializeBlogs = () => {
       data: blogs
     })
   }
+}
+
+export const deleteBlog = (blogId) => {
+    console.log('deleteBlog at reducer')
+    return async (dispatch) => {
+        try {
+            const deletedBlog = await blogService.remove(blogId)
+            console.log('returned deletedBlog:',deletedBlog)
+      
+            //let's get all the blogs again after the delete and update state to hide the deleted and to sort the remaining blogs.
+            /*
+            const blogs = await blogService.getAll()
+            dispatch({
+                type: 'DELETE_BLOGS',
+                data: blogs
+              })    
+            */
+
+           dispatch({
+            type: 'DELETE_BLOG',
+            id: blogId
+          })
+
+            /*
+            this.sortBlogs(blogs)
+      
+            this.setState({
+              message: 'blog deleted succesfully',
+              messagetype: 'info'
+           })
+      
+           setTimeout(() => {
+            this.setState({ message: null, messagetype: null })
+          }, 5000)
+      */
+          console.log('reached THE END OF UPDATE')
+        
+      } catch(exception) {
+          console.log('deleting of blog failed:',exception);
+        }
+      
+    }
 }
 
 export const like = (blog) => {
