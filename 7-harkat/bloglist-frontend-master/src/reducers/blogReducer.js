@@ -1,5 +1,6 @@
 import blogService from '../services/blogs'
 
+const blogs = {blogs:[], }
 const blogReducer = (state = [], action) => {
   console.log('ACTION: ', action)
   switch (action.type) {
@@ -60,6 +61,74 @@ export const initializeBlogs = () => {
     })
   }
 }
+
+
+
+
+//addBlog = async (event) => {
+export const addBlog = (blogObject) => {
+  return async (dispatch) => {
+  //event.preventDefault()
+
+  /*
+  const blogObject = {
+    title: this.state.newtitle,
+    author: this.state.newauthor,
+    url: this.state.newurl
+    //TODO:
+    //date: new Date(),
+    //important: Math.random() > 0.5
+  }
+  */
+
+  console.log('adding new blogObject:',blogObject)
+
+  try {
+  const newBlog = await blogService.create(blogObject)
+  console.log('returned newBlog:',newBlog)
+
+  console.log('update set state')
+  /*
+  this.setState({
+    blogs: this.state.blogs.concat(newBlog),
+    newtitle: '',
+    newauthor: '',
+    newurl: ''
+  })
+
+  this.sortBlogs()
+
+  this.setState({
+    message: 'new blog' +newBlog.title + ' by ' +newBlog.author +' added',
+    messagetype: 'info'
+  })
+  
+  setTimeout(() => {
+    this.setState({ message: null, messagetype: null })
+  }, 5000)
+*/
+  dispatch({
+    type: 'NEW_BLOG',
+    data: newBlog 
+  })
+
+} catch(exception) {
+  /*
+  this.setState({
+    message: 'error in adding new blog:'+exception,
+    messagetype:'error'
+    //notes: this.state.notes.filter(n => n.id !== id)
+  })
+  setTimeout(() => {
+    this.setState({message: null, messagetype: null})
+  }, 5000)
+  */
+}
+}
+}
+
+
+
 
 export const deleteBlog = (blogId) => {
     console.log('deleteBlog at reducer')

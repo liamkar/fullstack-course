@@ -5,6 +5,7 @@ import { logout } from './reducers/userReducer'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
+import CreateBlog from './components/CreateBlog'
 
 /*
 <h2>blogs</h2>
@@ -33,6 +34,7 @@ class App extends React.Component {
 
 
   //TODO:lisää render metodiin tieto userista. ks. vanha koodi alla.
+  //TODO:pitää lisätä togglable-ominaisuus createblogiin.
   render() {
     console.log('APP RENDERED!!!!!!!!!!!!!!')
     console.log('this.props.loggedInUser:',this.props.loggedInUser)
@@ -49,6 +51,7 @@ class App extends React.Component {
       <p className="blogBlock">{this.props.loggedInUser.name} logged in <button onClick={this.onLogout}>logout</button></p> 
       <Notification />
       <BlogList />
+      <CreateBlog/>
       </div>
 
       /*
