@@ -1,10 +1,7 @@
 import React from 'react'
-//import NoteForm from './components/NoteForm.js'
-//import NoteList from './components/NoteList.js'
-//import VisibilityFilter from './components/VisibilityFilter'
 import { connect } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
-//import Blog from './components/Blog'
+import Login from './components/Login'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 
@@ -14,18 +11,29 @@ import Notification from './components/Notification'
       <Blog key={blog._id} blog={blog} user={this.state.user} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
       
     )}
-
 */
 
 class App extends React.Component {
   componentWillMount() {
     this.props.initializeBlogs()
+    console.log('this.props.user:',this.props.user)
+    console.log('this.props:',this.props.user)
   }
 
   //TODO:lisää render metodiin tieto userista. ks. vanha koodi alla.
   render() {
+    console.log('APP RENDERED!!!!!!!!!!!!!!')
+    console.log('this.props.user:',this.props.user)
+    if (this.props.loggedInUser === null) {
+      return (
+        <div>
+          <Login/>
+        </div>
+      )
+    }
+    else {
     return (
-      <div>
+      <div> 
       <Notification />
       <BlogList />
       </div>
@@ -38,21 +46,23 @@ class App extends React.Component {
       </div>
       */
     )
+    }
+  }
+}
+
+
+const mapStateToProps = (state) => {
+  console.log('mapStateToProps:',state)
+  return {
+    loggedInUser: state.loggedInUser.user
   }
 }
 
 export default connect(
-  null,
+  //null,
+  mapStateToProps,
   { initializeBlogs }
 )(App)
-
-
-
-
-
-
-
-
 
 /*
 import React from 'react'

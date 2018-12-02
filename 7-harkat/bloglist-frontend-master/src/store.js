@@ -5,9 +5,12 @@ import blogReducer from './reducers/blogReducer'
 //import filterReducer from './reducers/filterReducer'
 import notificationReducer from './reducers/notificationReducer'
 
+import userReducer from './reducers/userReducer'
+
 const reducer = combineReducers({
   blogs: blogReducer,
-  notification: notificationReducer
+  notification: notificationReducer,
+  loggedInUser: userReducer
 })
 
 //const reducer = 
