@@ -17,14 +17,12 @@ import { addBlog } from './../reducers/blogReducer'
       }
     }
 
-
   handleBlogChange = (event) => {
     this.setState({ [event.target.name]: event.target.value })
   }
 
   handleSubmit = (event) => {
     event.preventDefault()
-    //this.setState({ [event.target.name]: event.target.value })
     const blogObject = {
       title: this.state.title,
       author: this.state.author,
@@ -33,7 +31,6 @@ import { addBlog } from './../reducers/blogReducer'
     this.props.addBlog(blogObject)
     console.log('REACHED END OF HANDLESUBMIT of add new blog.')
   }
-
 
     render() {
       return (

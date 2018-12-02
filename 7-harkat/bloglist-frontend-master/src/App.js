@@ -6,6 +6,7 @@ import Login from './components/Login'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
+import Togglable from './components/Togglable'
 
 /*
 <h2>blogs</h2>
@@ -51,7 +52,9 @@ class App extends React.Component {
       <p className="blogBlock">{this.props.loggedInUser.name} logged in <button onClick={this.onLogout}>logout</button></p> 
       <Notification />
       <BlogList />
-      <CreateBlog/>
+      <Togglable buttonLabel="create">
+        <CreateBlog/>
+      </Togglable>
       </div>
 
       /*
