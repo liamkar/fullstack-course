@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
+import { logout } from './reducers/userReducer'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import Notification from './components/Notification'
@@ -20,10 +21,21 @@ class App extends React.Component {
     console.log('this.props:',this.props.user)
   }
 
+  onLogout = async (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogappUser');
+    this.props.logout()
+
+    //window.localStorage.clear()
+    //this.setState({ username: '', password: '', user: null})
+    console.log('logout went seemingly ok.')
+  }
+
+
   //TODO:lisää render metodiin tieto userista. ks. vanha koodi alla.
   render() {
     console.log('APP RENDERED!!!!!!!!!!!!!!')
-    console.log('this.props.user:',this.props.user)
+    console.log('this.props.loggedInUser:',this.props.loggedInUser)
     if (this.props.loggedInUser === null) {
       return (
         <div>
@@ -33,7 +45,8 @@ class App extends React.Component {
     }
     else {
     return (
-      <div> 
+      <div>
+      <p className="blogBlock">{this.props.loggedInUser.name} logged in <button onClick={this.onLogout}>logout</button></p> 
       <Notification />
       <BlogList />
       </div>
@@ -61,7 +74,7 @@ const mapStateToProps = (state) => {
 export default connect(
   //null,
   mapStateToProps,
-  { initializeBlogs }
+  { initializeBlogs, logout }
 )(App)
 
 /*

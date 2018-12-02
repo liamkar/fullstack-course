@@ -23,7 +23,9 @@ const userReducer = (state = user, action) => {
     clone.password= ''
     clone.name='',
     clone.user=action.data 
-    return clone  
+    return clone   
+  case 'LOGOUT':
+    return user 
     /*
   case 'DELETE_BLOG':
     return state.filter(blog => blog._id !== action.id)
@@ -229,6 +231,15 @@ export const handleLoginFieldChange = (event) => {
     })
   }
 }
+
+export const logout = () => {
+  window.localStorage.removeItem('loggedBlogappUser');
+  console.log('userReducer: logout before return.')
+  return {
+      type: 'LOGOUT'
+    }
+}
+
 
 
 /*
