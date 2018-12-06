@@ -3,6 +3,7 @@ import loginService from '../services/login'
 
 const user = {user: null, name:'', password:''}
 
+//better name for this would be loginReducer, 
 const userReducer = (state = user, action) => {
   console.log('ACTION: ', action)
   switch (action.type) {

@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+//import { notifyWith } from './../reducers/notificationReducer'
 
 const blogs = {blogs:[], }
 const blogReducer = (state = [], action) => {
@@ -107,6 +108,9 @@ export const addBlog = (blogObject) => {
     this.setState({ message: null, messagetype: null })
   }, 5000)
 */
+
+  //notifyWith(`New blog added`, 'info', dispatch)
+
   dispatch({
     type: 'NEW_BLOG',
     data: newBlog 

@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { addBlog } from './../reducers/blogReducer'
+import { notify } from './../reducers/notificationReducer'
+
 
 //-kurssin ohjeistus: "Reactin suosittelemaan tyyliin tila ja tilaa käsittelevät funktiot on kaikki
 // määritelty komponentin ulkopuolella ja välitetään komponentille propseina.""
@@ -21,7 +23,7 @@ import { addBlog } from './../reducers/blogReducer'
     this.setState({ [event.target.name]: event.target.value })
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault()
     const blogObject = {
       title: this.state.title,
@@ -29,7 +31,19 @@ import { addBlog } from './../reducers/blogReducer'
       url: this.state.url
     }
     this.props.addBlog(blogObject)
+
+    //can we get this notication to be fired at the addBlog method?
+    //this.props.notify('NEW BLOG ADDED SUCCESFULLY',20000)
+    this.props.notify('NEW BLOG ADDED SUCCESFULLY',5000)
     console.log('REACHED END OF HANDLESUBMIT of add new blog.')
+
+
+    
+    this.setState({
+      title: '',
+      url: '',
+      author: '',
+    })
   }
 
     render() {
@@ -67,5 +81,5 @@ import { addBlog } from './../reducers/blogReducer'
 
 export default connect(
   null,
-  { addBlog }
+  { addBlog, notify }
 )(CreateBlog)

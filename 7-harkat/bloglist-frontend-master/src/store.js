@@ -6,11 +6,14 @@ import blogReducer from './reducers/blogReducer'
 import notificationReducer from './reducers/notificationReducer'
 
 import userReducer from './reducers/userReducer'
+import usersReducer from './reducers/usersReducer'
+
 
 const reducer = combineReducers({
   blogs: blogReducer,
   notification: notificationReducer,
-  loggedInUser: userReducer
+  loggedInUser: userReducer,
+  users: usersReducer
 })
 
 //const reducer = 

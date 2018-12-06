@@ -4,7 +4,7 @@ const notificationReducer = (state = '', action) => {
   console.log('ACTION: ', action)
   switch (action.type) {
   case 'NOTIFY':
-    return action.notification
+    return action.message
   case 'CLEAR':
     return ''
   default:
@@ -21,18 +21,42 @@ export const filterChange = (notification) => {
 }
 */
 
+export const notifyWith = (message, type, dispatch) => {
+  dispatch({
+    type: 'NOTIFY',
+    content: {
+      message, type
+    }
+  })
+  setTimeout(() => {
+    dispatch({
+      type: 'CLEAR'
+    })
+  }, 5000)
+}
+
 export const notify = (message, time) => {
   return async (dispatch) => {
+    console.log('DISPATCHING NOTIFICATION')
     dispatch({
       type: 'NOTIFY',
       message
     })
+    
     setTimeout(() => {
+      this.setState({ position: 1 });
+    }, 3000);
+
+    /*
+    setTimeout(() => {
+      console.log('DISPATCHING NOTIFICATION TIMEOUT')
       dispatch({
         type: 'CLEAR',
         message
-      }, time)
+      }, 50000)
     })
+    */
+  
   }
 }
 

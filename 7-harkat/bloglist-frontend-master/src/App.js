@@ -1,24 +1,39 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/usersReducer'
 import { logout } from './reducers/userReducer'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
+import UserList from './components/UserList'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 /*
 <h2>blogs</h2>
 {this.state.blogs.map(blog => 
       <Blog key={blog._id} blog={blog} user={this.state.user} blogService={blogService} likeBlog={this.handleBlogLike} deleteBlog={this.handleBlogDelete}/>
-      
     )}
 */
 
 class App extends React.Component {
+  /*
+  constructor() {
+    super()
+    //is there any sense refactoring this to some reducer?
+    //we don't need this if using router/links - 
+    this "state" is basically read and stored from the browser url in case of using Router.
+    this.state = {
+      page: 'home'
+    }
+  }
+  */
+
   componentWillMount() {
     this.props.initializeBlogs()
+    this.props.initializeUsers()
     console.log('this.props.user:',this.props.user)
     console.log('this.props:',this.props.user)
   }
@@ -49,13 +64,26 @@ class App extends React.Component {
     else {
     return (
       <div>
-      <p className="blogBlock">{this.props.loggedInUser.name} logged in <button onClick={this.onLogout}>logout</button></p> 
-      <Notification />
-      <BlogList />
-      <Togglable buttonLabel="create">
-        <CreateBlog/>
-      </Togglable>
+
+        <Router>
+          <div>
+            <div>
+              <Link to="/">home</Link> &nbsp;
+              <Link to="/blogs">blogs</Link> &nbsp;
+              <Link to="/users">users</Link>
+              <p className="blogBlock">{this.props.loggedInUser.name} logged in <button onClick={this.onLogout}>logout</button></p> 
+            </div>
+            <Notification />
+            <Route exact path="/" render={() => <BlogList />} />
+            <Togglable buttonLabel="create">
+              <CreateBlog/>
+            </Togglable>
+            <Route path="/blogs" render={() => <BlogList />} />
+            <Route path="/users" render={() => <UserList />} />
+          </div>
+        </Router>      
       </div>
+
 
       /*
       <div>
@@ -80,7 +108,7 @@ const mapStateToProps = (state) => {
 export default connect(
   //null,
   mapStateToProps,
-  { initializeBlogs, logout }
+  { initializeBlogs, initializeUsers, logout }
 )(App)
 
 /*
