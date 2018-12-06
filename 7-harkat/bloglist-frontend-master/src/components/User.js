@@ -29,10 +29,20 @@ render() {
 
     //const showWhenVisible = { display: this.state.visible ? '' : 'none' }
     //const { user, handleClick } = this.props
+    console.log('this.props at User.js',this.props.user)
     const {user} = this.props
 
     return (
-        <tr><td>{user.name}</td><td>{user.blogs.length}</td></tr>
+        <div>
+            <h2>{user.name}</h2>
+            <h3>added blogs</h3>
+            <ul>
+            {user.blogs.map(blog => 
+                <li>{blog.title}</li>
+                )}
+            </ul>
+        </div>
+        
         )
     }
 }

@@ -6,6 +6,7 @@ import { logout } from './reducers/userReducer'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import UserList from './components/UserList'
+import User from './components/User'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
@@ -34,8 +35,10 @@ class App extends React.Component {
   componentWillMount() {
     this.props.initializeBlogs()
     this.props.initializeUsers()
+
     console.log('this.props.user:',this.props.user)
     console.log('this.props:',this.props.user)
+    console.log('users initialized:',this.props.users)
   }
 
   onLogout = async (event) => {
@@ -48,12 +51,28 @@ class App extends React.Component {
     console.log('logout went seemingly ok.')
   }
 
+/*
+  const userById = (id) =>
+  this.props.users.find(user => user.id === Number(id))
+*/
+
+
+/*
+  userById = (id) => {
+    return this.props.users.find(user => user.id === Number(id))
+  }
+*/
 
   //TODO:lisää render metodiin tieto userista. ks. vanha koodi alla.
   //TODO:pitää lisätä togglable-ominaisuus createblogiin.
   render() {
     console.log('APP RENDERED!!!!!!!!!!!!!!')
     console.log('this.props.loggedInUser:',this.props.loggedInUser)
+
+    const userById = (id) =>
+      this.props.users.find(u => u.id === id)
+    
+
     if (this.props.loggedInUser === null) {
       return (
         <div>
@@ -64,7 +83,6 @@ class App extends React.Component {
     else {
     return (
       <div>
-
         <Router>
           <div>
             <div>
@@ -79,7 +97,10 @@ class App extends React.Component {
               <CreateBlog/>
             </Togglable>
             <Route path="/blogs" render={() => <BlogList />} />
-            <Route path="/users" render={() => <UserList />} />
+            <Route exact path="/users" render={() => <UserList />} />
+            <Route exact path="/users/:id" render={({match}) =>
+              <User user={userById(match.params.id)} />}
+              />
           </div>
         </Router>      
       </div>
@@ -93,15 +114,19 @@ class App extends React.Component {
       </div>
       */
     )
-    }
+    }  
   }
+
+
 }
+
 
 
 const mapStateToProps = (state) => {
   console.log('mapStateToProps:',state)
   return {
-    loggedInUser: state.loggedInUser.user
+    loggedInUser: state.loggedInUser.user,
+    users: state.users
   }
 }
 
