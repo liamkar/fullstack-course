@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { connect } from 'react-redux'
 /*
 const userStyle = {
   paddingTop: 10,
@@ -30,7 +30,13 @@ render() {
     //const showWhenVisible = { display: this.state.visible ? '' : 'none' }
     //const { user, handleClick } = this.props
     console.log('this.props at User.js',this.props.user)
-    const {user} = this.props
+    let {user} = this.props
+
+    if (!user) {
+        console.log(this.props.users)
+        console.log(this.props.match)
+        user = this.props.users.find(u => u._id===this.props.match)
+    }
 
     return (
         <div>
@@ -47,5 +53,34 @@ render() {
     }
 }
 
-export default User
+/*
+const mapStateToProps = (state, props) => {
+    const { userId } = props
+  
+    if (state.users === null) {
+      return { user: null }
+    }
+  
+    return {
+      user: state.users.find(user => user._id===userId)
+    }
+  }
+  
+  export default connect(mapStateToProps)(User)
+*/
+
+
+const mapStateToProps = (state) => {
+    return {     
+      users: state.users
+    }
+  }
+  
+  export default connect(
+    mapStateToProps
+  )(User)
+
+
+
+//export default User
 

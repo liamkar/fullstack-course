@@ -169,6 +169,14 @@ export const initializeBlogs = () => {
 }
 */
 
+export const refreshLogin = (user) => {
+  
+  blogService.setToken(user.token)
+  return {
+    type: 'LOGIN',
+    data:user
+  }
+} 
 
 //login = async (event) => {
 export const login = (name, password) => {

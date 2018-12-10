@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/usersReducer'
-import { logout } from './reducers/userReducer'
+import { logout, refreshLogin } from './reducers/userReducer'
 import Login from './components/Login'
 import BlogList from './components/BlogList'
 import UserList from './components/UserList'
@@ -39,6 +39,22 @@ class App extends React.Component {
     console.log('this.props.user:',this.props.user)
     console.log('this.props:',this.props.user)
     console.log('users initialized:',this.props.users)
+
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    console.log('loggedUserJSON:',loggedUserJSON)
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+
+      this.props.refreshLogin(user)
+      /*
+      this.setState({user})
+      console.log('user set to APP state:',user)
+      blogService.setToken(user.token)
+      console.log('reached end of user logging:')
+      */
+    }
+
+
   }
 
   onLogout = async (event) => {
@@ -133,7 +149,7 @@ const mapStateToProps = (state) => {
 export default connect(
   //null,
   mapStateToProps,
-  { initializeBlogs, initializeUsers, logout }
+  { initializeBlogs, initializeUsers, logout, refreshLogin }
 )(App)
 
 /*
