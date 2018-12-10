@@ -7,6 +7,7 @@ import Login from './components/Login'
 import BlogList from './components/BlogList'
 import UserList from './components/UserList'
 import User from './components/User'
+import Blog from './components/Blog'
 import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
@@ -89,6 +90,10 @@ class App extends React.Component {
       this.props.users.find(u => u.id === id)
     
 
+    const blogById = (id) =>
+      this.props.blogs.find(b => b.id === id)
+    
+
     if (this.props.loggedInUser === null) {
       return (
         <div>
@@ -112,7 +117,10 @@ class App extends React.Component {
             <Togglable buttonLabel="create">
               <CreateBlog/>
             </Togglable>
-            <Route path="/blogs" render={() => <BlogList />} />
+            <Route exact path="/blogs" render={() => <BlogList />} />
+            <Route exact path="/blogs/:id" render={({match}) =>
+              <Blog blogId={match.params.id} />}
+              />
             <Route exact path="/users" render={() => <UserList />} />
             <Route exact path="/users/:id" render={({match}) =>
               <User user={userById(match.params.id)} />}
@@ -142,7 +150,8 @@ const mapStateToProps = (state) => {
   console.log('mapStateToProps:',state)
   return {
     loggedInUser: state.loggedInUser.user,
-    users: state.users
+    users: state.users,
+    blogs: state.blogs
   }
 }
 

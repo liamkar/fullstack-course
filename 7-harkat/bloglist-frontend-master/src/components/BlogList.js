@@ -4,11 +4,24 @@ import { connect } from 'react-redux'
 import { like } from './../reducers/blogReducer'
 import { deleteBlog } from './../reducers/blogReducer'
 import Blog from './Blog'
+import { Link } from 'react-router-dom'
 
 //TODO: add toggleImportance eli tässä ohjelmassa TOggleVisibility myöhemmin.
 const BlogList = (props) => (
     <div>
         <h2>blogs</h2>
+
+        
+    {props.blogs.map(blog =>
+      
+      <p className="content"><Link to={`/blogs/${blog._id}`}>{blog.title}</Link>{blog.author}</p>
+    )}
+          
+  </div>
+)
+
+/* OLD version, without Router/Link
+
     {props.blogs.map(blog =>
       <Blog
         key={blog._id}
@@ -18,8 +31,12 @@ const BlogList = (props) => (
         handleDelete={() => props.deleteBlog(blog._id)}
       />
     )}
-  </div>
-)
+    */
+
+
+
+
+
 
 /*
 const notesToShow = (notes, filter) => {
