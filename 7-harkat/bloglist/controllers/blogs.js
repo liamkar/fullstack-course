@@ -117,6 +117,31 @@ blogsRouter.get('/:id', async (request, response) => {
 })
 
 
+//Sopiva rajapinta kommentin luomiseen on osoitteeseen api/blogs/:id/comments tapahtuva HTTP POST -pyyntö.
+blogsRouter.post('/:id/comments', async (request, response) => {
+  try {
+    const newComment = request.body
+    console.log(newComment)
+
+    
+    let blog = await Blog.findById(request.params.id)
+    blog.comments.push(newComment.comment)
+    
+
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true } )
+    //response.status(204).end()
+    //response.json(helper.format(updatedBlog))
+    console.log('comment addition successful, updated object:',updatedBlog)
+    response.json(updatedBlog)
+    //response.status(201).json(savedBlog)
+  } catch (exception) {
+    console.log(exception)
+    response.status(400).send({ error: 'malformatted id' })
+  }}
+)
+
+
+
 blogsRouter.delete('/:id', async (request, response) => {
   try {
     //await Blog.findByIdAndRemove(request.params.id)

@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { like } from './../reducers/blogReducer'
+
 /*
 const userStyle = {
   paddingTop: 10,
@@ -54,6 +55,14 @@ render() {
             <comment>TODO:IF onclick would be without () =>, this would launch infinite amount of auto likes. When time dig deeper into what's going on.</comment><br/>
             {blog.votes} likes <button onClick={() => this.props.like(blog)}>like</button><br/>
             added by {blog.user.name}
+
+            <h3>Comments</h3>
+            <ul>
+            {blog.comments.map(comment =>
+            <li>{comment}</li>
+    )}
+
+            </ul>
         </div>
         
         )
