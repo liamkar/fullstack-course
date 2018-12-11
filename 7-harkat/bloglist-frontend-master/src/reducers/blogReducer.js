@@ -1,12 +1,21 @@
 import blogService from '../services/blogs'
 //import { notifyWith } from './../reducers/notificationReducer'
 
-const blogs = {blogs:[], }
+const blogs = {blogs:[], blogId:"", comment:"" }
 const blogReducer = (state = [], action) => {
   console.log('ACTION: ', action)
   switch (action.type) {
   case 'NEW_BLOG':
-    return [...state, action.data]
+    //return [...state, action.data]
+    let clone = Object.assign({}, state)
+    clone.blogs = [...clone.blogs, action.data]
+    return clone
+  case 'UPDATE_COMMENT':
+    clone = Object.assign({}, state)
+    console.log('at update comment:'+action.data)
+    clone.comment= action.data
+    console.log(clone)
+    return clone
     /*
   case 'TOGGLE_IMPORTANCE': {
     const id = action.data.id
@@ -244,6 +253,53 @@ export const like = (blog) => {
     */
   }
 }
+
+
+export const comment = (blog, newComment) => {
+  console.log('at the start of comment ')
+  return async (dispatch) => {
+
+      console.log('comment clicked at like reducer')
+      /*
+      const changedBlog = {
+          title: blog.title,
+          author: blog.author,
+          url: blog.url,
+          //user: blog.user._id,
+          user: blog.user,
+          votes: blog.votes + 1
+        }
+      */
+        let blogId = blog._id
+       
+        console.log('new comment add blogReducer comment-method:',newComment)
+
+        blog.comments = [...blog.comments, newComment]
+
+      console.log('updating blogObject:',blog)
+
+          //const updatedBlog = await blogService.update(blogId,blog)
+
+          const updatedBlog = await blogService.comment(blogId,{comment:newComment})
+          console.log('returned updatedBlog:',updatedBlog)
+          dispatch({
+              type: 'UPDATE_BLOG',
+              data: updatedBlog
+            })
+
+}
+}
+
+
+
+
+
+
+
+
+
+
+
   /*
   handleBlogLike = async (blog) => {
     //handleBlogLike = async (blogId) => {

@@ -15,10 +15,10 @@ const usersReducer = (state = [], action) => {
 
 export const initializeUsers = () => {
   return async (dispatch) => {
-    const blogs = await userService.getAll()
+    const users = await userService.getAll()
     dispatch({
       type: 'INIT_USERS',
-      data: blogs
+      data: users
     })
   }
 }

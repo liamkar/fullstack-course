@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { like } from './../reducers/blogReducer'
+import { like, comment } from './../reducers/blogReducer'
 
 /*
 const userStyle = {
@@ -13,21 +13,44 @@ const userStyle = {
 */
 
 class Blog extends React.Component {
-  /*
+  
   constructor(props) {
     super(props)
     this.state = {
       //extent of visibility of each blog is defined here. 
       //because of the need for this attribute, Blog was created as class Component.
-      visible: false
+      newComment: ""
     }
   }
-  */
+  
 
+
+  handleCommentChange = (event) => {
+    console.log(event.target.value)
+    this.setState({ newComment: event.target.value })
+  }
 
   toggleVisibility = () => {
     this.setState({visible: !this.state.visible})
   }
+
+
+  onComment = async (e) => {
+    e.preventDefault()
+    console.log('on commit submit')
+    console.log(this.props.loggedInUser)
+    this.props.comment(this.props.blog, e.target.COMMENT.value)
+    //props.login
+    /*
+    if (window.confirm("Do you really want to delete this blog?")) { 
+      var blogId = this.props.blog._id
+      console.log(this.props.handleDelete)
+      this.props.handleDelete(this.props.blog._id)
+      //window.open("exit.html", "Thanks for Visiting!");
+    }
+    */
+  }
+
 
 
 render() {
@@ -40,7 +63,9 @@ render() {
 
     let user = users.find(user => user.id === blog.user)
     console.log('user of blog:',user)
-      console.log('blog inside BLOG:',blog)
+    console.log('blog inside BLOG:',blog)
+
+  
     /*
     if (!blog) {
         console.log(this.props.users)
@@ -56,7 +81,25 @@ render() {
             {blog.votes} likes <button onClick={() => this.props.like(blog)}>like</button><br/>
             added by {blog.user.name}
 
+
+
             <h3>Comments</h3>
+            <form onSubmit={this.onComment}>
+       
+            <div>
+              <input
+           type="text"
+           name="COMMENT"
+           //value={this.state.newComment}
+           //onChange={this.state.handleCommentChange}
+         />
+         
+       <button type="submit">add comment</button>
+       </div>
+     </form>
+
+
+
             <ul>
             {blog.comments.map(comment =>
             <li>{comment}</li>
@@ -121,7 +164,7 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps, {
-  like
+  like, comment
 })(Blog)
 
 //export default connect(mapStateToProps)(Blog)
