@@ -103,7 +103,7 @@ class App extends React.Component {
     }
     else {
     return (
-      <div>
+      <div className="container">
         <Router>
           <div>
             <div>
