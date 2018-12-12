@@ -5,22 +5,37 @@ import { like } from './../reducers/blogReducer'
 import { deleteBlog } from './../reducers/blogReducer'
 import Blog from './Blog'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 //TODO: add toggleImportance eli tässä ohjelmassa TOggleVisibility myöhemmin.
 const BlogList = (props) => (
     <div>
         <h2>blogs</h2>
-
-        
-    {props.blogs.map(blog =>
+        <Table striped>
+      <tbody>
+      {props.blogs.map(blog =>
+         <tr key={blog._id}>
+         <td>
+         <Link to={`/blogs/${blog._id}`}>{blog.title}</Link>{blog.author}
+         </td>
+       </tr>
       
-      <p className="content"><Link to={`/blogs/${blog._id}`}>{blog.title}</Link>{blog.author}</p>
     )}
-          
+      </tbody>
+    </Table>          
   </div>
 )
 
-/* OLD version, without Router/Link
+
+/*OLD VERSION without bootstrap table styling
+{props.blogs.map(blog =>
+      
+  <p className="content"><Link to={`/blogs/${blog._id}`}>{blog.title}</Link>{blog.author}</p>
+)}
+*/
+
+
+/* OLDest version, without Router/Link
 
     {props.blogs.map(blog =>
       <Blog
