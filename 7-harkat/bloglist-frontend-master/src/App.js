@@ -12,6 +12,7 @@ import Notification from './components/Notification'
 import CreateBlog from './components/CreateBlog'
 import Togglable from './components/Togglable'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
 /*
 <h2>blogs</h2>
@@ -107,10 +108,32 @@ class App extends React.Component {
         <Router>
           <div>
             <div>
+
+              <Navbar inverse collapseOnSelect>
+  <Navbar.Header>
+    <Navbar.Brand>
+      BLOGLIST
+    </Navbar.Brand>
+    <Navbar.Toggle />
+  </Navbar.Header>
+  <Navbar.Collapse>
+    <Nav>
+      <NavItem href="#">
               <Link to="/">home</Link> &nbsp;
+              </NavItem>
+      <NavItem href="#">
               <Link to="/blogs">blogs</Link> &nbsp;
+              </NavItem>
+              <NavItem href="#">
               <Link to="/users">users</Link>
+              </NavItem>
+              <NavItem>
               <p className="blogBlock">{this.props.loggedInUser.name} logged in <button onClick={this.onLogout}>logout</button></p> 
+         
+              </NavItem>
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>
             </div>
             <Notification />
             <Route exact path="/" render={() => <BlogList />} />

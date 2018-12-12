@@ -19,7 +19,6 @@ const BlogList = (props) => (
          <Link to={`/blogs/${blog._id}`}>{blog.title}</Link>{blog.author}
          </td>
        </tr>
-      
     )}
       </tbody>
     </Table>          
