@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addBlog } from './../reducers/blogReducer'
 import { notify } from './../reducers/notificationReducer'
-
+import { Table, FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
 
 //-kurssin ohjeistus: "Reactin suosittelemaan tyyliin tila ja tilaa käsittelevät funktiot on kaikki
 // määritelty komponentin ulkopuolella ja välitetään komponentille propseina.""
@@ -52,27 +52,32 @@ import { notify } from './../reducers/notificationReducer'
     <h2>create new</h2>
 
       <form onSubmit={this.handleSubmit}>
-        Title:<input
-          type="text"
-          name="title"
-          value={this.props.newtitle}
-          onChange={this.handleBlogChange}
-        />
-        <br/>
-        Author:<input
-          type="text"
-          name="author"
-          value={this.props.author}
-          onChange={this.handleBlogChange}
-        />
-        <br/>
-        Url:<input
-          type="text"
-          name="url"
-          value={this.props.url}
-          onChange={this.handleBlogChange}
-        />
-        <button type="submit">tallenna</button>
+      <FormGroup>
+          <ControlLabel>Title:</ControlLabel>
+          <FormControl
+            type="text"
+            name="title"
+            value={this.props.newtitle}
+            onChange={this.handleBlogChange}
+          />
+          <ControlLabel>Author:</ControlLabel>
+          <FormControl
+            type="text"
+            name="author"
+            value={this.props.author}
+            onChange={this.handleBlogChange}
+          />
+          <ControlLabel>Url:</ControlLabel>
+          <FormControl
+            type="text"
+            name="aurl"
+            value={this.props.url}
+            onChange={this.handleBlogChange}
+          />
+          <Button bsStyle="success" type="submit">tallenna</Button>
+        </FormGroup>
+
+
       </form>
       </div>
       )

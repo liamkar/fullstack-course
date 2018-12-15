@@ -2,11 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import User from './User'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 
 const UserList = (props) => (
     <div>
         <h2>users</h2>
-        <table>
+        <Table striped>
+      <tbody>
+        
           <tr><th></th><th>Number of blogs</th></tr>
           
     {props.users.map(user =>
@@ -19,7 +22,8 @@ const UserList = (props) => (
       />
       */
     )}
-    </table>
+    </tbody>
+    </Table>
   </div>
 )
 
