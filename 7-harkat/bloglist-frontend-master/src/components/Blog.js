@@ -152,13 +152,6 @@ const mapStateToProps = (state) => {
 //export default Blog
 
 
-Blog.propTypes = {
-  blog:PropTypes.string,
-  lastName:PropTypes.string,
-  country:PropTypes.string
-};
-
-
 const mapStateToProps = (state, props) => {
   const { blogId } = props
 
