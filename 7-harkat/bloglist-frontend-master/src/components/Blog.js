@@ -77,7 +77,14 @@ render() {
         <div>
             <h2>{blog.title}</h2>
             <a href={blog.url}>{blog.url}</a>   <br/>  
-            <comment>TODO:IF onclick would be without () =>, this would launch infinite amount of auto likes. When time dig deeper into what's going on.</comment><br/>
+            <comment>
+              TODO:IF onclick would be without () =>, this would launch infinite amount of auto likes. When time dig deeper into what's going on.
+              ANSWER:? Mistä on kyse? Tapahtumankäsittelijäksi on tarkoitus määritellä viite funktioon. Kun koodissa on
+            tapahtumankäsittelijäksi tulee määriteltyä funktiokutsu. Sekin on monissa tilanteissa ok, mutta ei nyt, nimittäin kun React suorittaa metodin render, se suorittaa kutsun this.asetaArvoon(0). 
+              Kutsu aiheuttaa metodin setState kutsun. Tämä taas aiheuttaa uuden render-kutsun jne…
+            Tässä tilanteessa meidän onkin käytettävä yleistä Javascriptin ja yleisemminkin funktionaalisen ohjelmoinnin kikkaa, eli määritellä funktio joka palauttaa funktion:
+              
+              </comment><br/>
             {blog.votes} likes <button onClick={() => this.props.like(blog)}>like</button><br/>
             added by {blog.user.name}
 
@@ -143,6 +150,13 @@ const mapStateToProps = (state) => {
 
 
 //export default Blog
+
+
+Blog.propTypes = {
+  blog:PropTypes.string,
+  lastName:PropTypes.string,
+  country:PropTypes.string
+};
 
 
 const mapStateToProps = (state, props) => {
